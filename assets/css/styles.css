@@ -1,0 +1,1431 @@
+/* =========================================================================
+   GREENCITY GOA — Landing Page Stylesheet
+   Design system per docs: Instruction Documents/04-design-system.md, re-tuned
+   against maehrhomes.com's actual live CSS (colors + fonts read directly
+   from their :root custom properties, not eyeballed).
+   Palette: cream #FFFAF0, sage #5F9786 (headlines/blocks), dark #2b4e48
+   (icons/numbers/UI chrome), gold #c4a668 (stat labels), body #333333.
+   Fredoka (display, substituting for their licensed "Black Mango") +
+   Montserrat (body/UI, their real font). Pill buttons, organic masks.
+   ========================================================================= */
+
+/* -------------------------------------------------------------------------
+   1. TOKENS
+   ------------------------------------------------------------------------- */
+:root{
+  /* Colors — pulled directly from maehrhomes.com's own :root CSS custom
+     properties (read live via getComputedStyle/cssRules, not eyeballed):
+     --primary-color:#5F9786 --secondary-color:#FFFAF0 --text-color:#333333
+     --accent-color:#015571 --orange-color:#c4a668 --dark-color:#2b4e48
+     --divider-color:#DFE1DE. Mapped onto this project's token names below. */
+  --cream:        #FDFCF9;   /* lightened from Maehr's #FFFAF0 — client feedback was that the
+                                 page read too yellow/wheat-toned against the greens once more
+                                 sections were built out; kept a faint warmth rather than pure
+                                 #FFFFFF (flat/stark), but pulled it much closer to white. */
+  --cream-deep:   #F8F6F1;   /* same pass, from #F5EEDC — was the more noticeably tan of the two */
+  --sage:         #5F9786;   /* Maehr --primary-color — headline text + card-block bg */
+  --forest:       #2b4e48;   /* Maehr --dark-color — icons, stat numbers, dark section bg, UI chrome */
+  --forest-deep:  #1E3833;   /* derived — darker than --forest, for nav/footer if needed */
+  --leaf:         #2b4e48;   /* alias to --forest for icon consistency */
+  --teal:         #015571;   /* Maehr --accent-color */
+  --terracotta:   #BD8271;   /* kept defined but not used as a block color anymore —
+                                 Maehr's real palette has no terracotta; sage fills that role now */
+  --gold:         #c4a668;   /* Maehr --orange-color — italic stat label, eyebrow accents */
+  --gold-on-dark: #E4C286;   /* lighter/warmer than --gold on purpose — the hero eyebrow sits
+                                 directly on a dark photo and needs more contrast than the muted
+                                 --gold reads at over cream backgrounds; a deliberate variant,
+                                 not a duplicate left over from not reusing --gold. */
+  --taupe:        #333333;   /* Maehr --text-color — body copy */
+  --white:        #FFFFFF;
+  --line:         #DFE1DE;   /* Maehr --divider-color */
+  --line-on-dark: rgba(248,245,236,0.18);
+  --error:        #B3453B;   /* invalid field border/text */
+  --error-bg:     #FBEEEC;   /* invalid field background tint */
+  --growth-navy:  #1B4B63;   /* Growth section headline only — a deeper teal-navy distinct
+                                 from --teal, tuned for contrast against that section's own
+                                 pale gradient backdrop; not used anywhere else on the page. */
+
+  /* Type — see the <head> comment in index.html for why Fredoka substitutes
+     for Maehr's actual (commercially-licensed) "Black Mango" heading font,
+     and why Montserrat is used as-is for body/UI (their real body font). */
+  --font-display: "Playfair Display", Georgia, "Times New Roman", serif;
+  --font-body:    "Montserrat", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+
+  /* Type scale — a design-system audit pass found 12+ near-duplicate small
+     sizes (0.68rem/0.7rem/0.72rem doing the same job in three places, etc.)
+     with no shared steps. Consolidated to 7 static sizes below; every value
+     within ~0.03rem of a step was folded into it (imperceptible on screen —
+     e.g. form inputs move 0.95rem→1rem, which as a side effect also clears
+     iOS Safari's 16px auto-zoom-on-focus threshold). Headline/display sizes
+     use their own fluid (clamp()) scale further down since they need to
+     respond to viewport width, not just pick one static number; the hero
+     h1 and Growth section's title were two independently-tuned near-
+     identical clamps (2.3rem/6.4vw/4rem vs 2.4rem/6vw/4rem) now sharing one. */
+  --text-2xs:  0.7rem;    /* eyebrows, tags, pills, micro-labels */
+  --text-xs:   0.76rem;   /* fineprint, captions, small meta */
+  --text-sm:   0.82rem;   /* buttons, secondary descriptions */
+  --text-base: 0.88rem;   /* nav links, footer copy, body-adjacent UI text */
+  --text-md:   1rem;      /* form inputs, FAQ questions */
+  --text-lg:   1.15rem;   /* card/portfolio titles, modal heading */
+  --text-xl:   1.35rem;   /* hero form heading, largest card heading */
+  --text-ghost-sm: 4.5rem;                  /* small background numeral (amenity card badges) */
+  --text-ghost:    clamp(5rem, 14vw, 9rem);       /* default background ghost numeral */
+  --text-ghost-lg: clamp(6rem, 20vw, 11rem);      /* floor-plan display — wider container, bigger numeral */
+  --text-display-xs: clamp(1rem, 1.6vw, 1.15rem);   /* italic sub-headlines */
+  --text-display-sm: clamp(1.6rem, 3vw, 2.1rem);    /* credibility-strip stat numerals */
+  --text-display-md: clamp(1.9rem, 4.2vw, 3rem);    /* standard section .headline */
+  --text-display-lg: clamp(2rem, 4vw, 3.4rem);      /* investment stat-pair numerals */
+  --text-display-xl: clamp(2.3rem, 6.4vw, 4rem);    /* hero h1 + Growth section title */
+
+  /* Weight roles — the file used 400/500/600/700 somewhat interchangeably
+     across components with no documented rule for which weight means what.
+     Named here so "medium nav link" vs "bold button label" is a legible
+     choice in the CSS, not just a bare number. Same 4 numeric values as
+     before in every case — this is a naming pass, not a visual change. */
+  --weight-regular:  400;
+  --weight-medium:   500;
+  --weight-semibold: 600;
+  --weight-bold:     700;
+
+  /* Rhythm — a spacing scale, introduced during a design-system audit pass.
+     Not retrofitted onto every declaration in the file (too high-risk for
+     one pass over a page this size), but adopted at the highest-repetition,
+     most "systemic" spots (section rhythm, field spacing, section-head
+     spacing) so new work has a real scale to reach for instead of another
+     bespoke rem value. */
+  --space-1: 0.4rem;
+  --space-2: 0.6rem;
+  --space-3: 1rem;
+  --space-4: 1.4rem;
+  --space-5: 1.6rem;
+  --space-6: 2rem;
+  --space-7: 2.4rem;
+  --space-8: 3rem;
+  --section-pad-y: clamp(3.8rem, 7.5vw, 7rem);
+  --container-w: 1240px;
+  --radius-card: 18px;
+  --radius-pill: 999px;
+
+  /* Motion */
+  --ease: cubic-bezier(.4,0,.2,1);
+}
+
+/* -------------------------------------------------------------------------
+   2. RESET
+   ------------------------------------------------------------------------- */
+*, *::before, *::after{ box-sizing: border-box; }
+html{ scroll-behavior: smooth; }
+body{
+  margin: 0;
+  background: var(--cream);
+  color: var(--forest);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+img{ max-width: 100%; display: block; }
+a{ color: inherit; text-decoration: none; }
+ul{ margin: 0; padding: 0; list-style: none; }
+h1,h2,h3,h4,p,figure{ margin: 0; }
+button{ font: inherit; cursor: pointer; }
+input, select, textarea{ font: inherit; }
+svg{ display: block; }
+
+/* Respect reduced-motion */
+@media (prefers-reduced-motion: reduce){
+  html{ scroll-behavior: auto; }
+  *{ animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
+
+/* Default icon size — deliberately placed here, right after the reset and
+   before every component section, rather than at the bottom of the file.
+   Component-specific icon sizes (.card--icon .icon, .growth-item .growth-icon,
+   etc.) now win by simply coming LATER in source order, the same way the
+   cascade works everywhere else in this file. Previously this lived at the
+   very bottom, which meant every override had to out-specificity it instead
+   — and the one place that didn't (a bare .growth-icon class tied with this
+   rule) rendered at 1.2rem instead of its intended size until that got
+   tracked down. Moving the rule removes the trap instead of just patching
+   the one place it was found. */
+.icon{ width: 1.2rem; height: 1.2rem; display: inline-block; flex-shrink: 0; }
+
+/* -------------------------------------------------------------------------
+   3. TYPOGRAPHY
+   ------------------------------------------------------------------------- */
+h1,h2,h3,h4{
+  font-family: var(--font-display);
+  font-weight: var(--weight-regular);
+  color: var(--sage);
+  line-height: 1.08;
+  letter-spacing: -0.01em;
+}
+.on-dark{ color: var(--cream); }
+
+.eyebrow{
+  display: inline-block;
+  font-family: var(--font-body);
+  font-size: var(--text-2xs);
+  font-weight: var(--weight-bold);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 0.9rem;
+}
+.eyebrow--dark{ color: var(--gold); }
+.eyebrow--on-terracotta{ color: var(--white); opacity: 0.85; }
+
+.headline{
+  font-size: var(--text-display-md);
+  font-weight: var(--weight-regular);
+  max-width: 16ch;
+}
+.headline strong, .headline b{
+  font-weight: var(--weight-bold);
+}
+.headline em{
+  font-style: italic;
+  font-weight: var(--weight-regular);
+}
+.headline--wide{ max-width: 24ch; }
+
+.tagline{
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: var(--weight-regular);
+  font-size: var(--text-display-xs);
+  color: var(--taupe);
+  margin-top: 0.6rem;
+}
+.on-dark .tagline{ color: rgba(248,245,236,0.72); }
+
+.lede{
+  font-size: var(--text-lg);
+  color: var(--taupe);
+  max-width: 58ch;
+  margin-top: 1.1rem;
+}
+.lede + .lede{ margin-top: 0.9rem; }
+.on-dark .lede{ color: rgba(248,245,236,0.78); }
+
+.section-head{ margin-bottom: var(--space-7); }
+.section-head.center{ text-align: center; margin-left: auto; margin-right: auto; }
+.section-head.center .headline{ max-width: 22ch; margin-left: auto; margin-right: auto; }
+.section-head.center .lede{ margin-left: auto; margin-right: auto; }
+
+/* -------------------------------------------------------------------------
+   4. LAYOUT HELPERS
+   ------------------------------------------------------------------------- */
+.wrap{
+  width: 100%;
+  max-width: var(--container-w);
+  margin: 0 auto;
+  padding: 0 1.25rem;
+}
+@media (min-width: 640px){ .wrap{ padding: 0 2rem; } }
+
+section{ padding: var(--section-pad-y) 0; position: relative; }
+.section--cream{ background: var(--cream); }
+.section--cream-deep{ background: var(--cream-deep); }
+.section--dark{ background: var(--forest); }
+.section--terracotta{ background: var(--terracotta); }
+
+.grid{ display: grid; gap: 1.5rem; }
+@media (min-width: 780px){
+  .grid-2{ grid-template-columns: 1fr 1fr; }
+  .grid-3{ grid-template-columns: repeat(3, 1fr); }
+  .grid-4{ grid-template-columns: repeat(4, 1fr); }
+}
+
+.placeholder-flag{
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+  font-size: var(--text-2xs);
+  font-weight: var(--weight-bold);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--terracotta);
+  border: 1px solid currentColor;
+  border-radius: var(--radius-pill);
+  padding: 0.2em 0.75em;
+}
+
+/* -------------------------------------------------------------------------
+   5. BUTTONS
+   ------------------------------------------------------------------------- */
+.btn{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5em;
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-bold);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 1rem 1.9rem;
+  border-radius: var(--radius-pill);
+  border: 1.5px solid transparent;
+  transition: transform .25s var(--ease), background-color .25s var(--ease), border-color .25s var(--ease), color .25s var(--ease), box-shadow .25s var(--ease);
+  white-space: nowrap;
+}
+.btn:active{ transform: scale(0.97); }
+.btn:disabled{
+  /* Real state, not hypothetical — script.js sets this on every form submit
+     ("Sending…") and there was previously no CSS for it at all, so the
+     button looked fully interactive while actually inert. pointer-events:none
+     also suppresses :hover on the variant classes below without needing to
+     override each one individually. */
+  opacity: 0.6;
+  cursor: not-allowed;
+  pointer-events: none;
+  transform: none;
+}
+
+.btn--solid{
+  background: var(--forest);
+  color: var(--cream);
+  border-color: var(--forest);
+}
+.btn--solid:hover{ background: var(--forest-deep); border-color: var(--forest-deep); }
+
+.btn--gradient{
+  background: linear-gradient(100deg, var(--teal), var(--leaf));
+  color: var(--white);
+}
+.btn--gradient:hover{ box-shadow: 0 8px 24px rgba(20,69,61,0.35); }
+
+.btn--outline{
+  background: transparent;
+  color: var(--forest);
+  border-color: var(--forest);
+}
+.btn--outline:hover{ background: var(--forest); color: var(--cream); }
+
+.btn--outline-light{
+  background: transparent;
+  color: var(--white);
+  border-color: rgba(255,255,255,0.7);
+}
+.btn--outline-light:hover{ background: var(--white); color: var(--forest); }
+
+.btn--block{ width: 100%; }
+.btn--sm{ padding: 0.75rem 1.4rem; font-size: var(--text-2xs); }
+
+.btn-arrow{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.6rem;
+  height: 2.6rem;
+  border-radius: 50%;
+  background: var(--white);
+  color: var(--forest);
+  flex-shrink: 0;
+}
+.btn-arrow svg{ width: 1.1rem; height: 1.1rem; }
+.btn-arrow--sm{ width: 1.7rem; height: 1.7rem; }
+.btn-arrow--sm svg{ width: 0.8rem; height: 0.8rem; }
+
+.link-cta{
+  display: inline-block;
+  font-size: var(--text-xs);
+  font-weight: var(--weight-bold);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  border-bottom: 1px solid currentColor;
+  padding-bottom: 0.2em;
+}
+
+/* -------------------------------------------------------------------------
+   6. NAV
+   ------------------------------------------------------------------------- */
+.nav{
+  position: sticky;
+  top: 0;
+  z-index: 60;
+  background: var(--cream);
+  border-bottom: 1px solid var(--line);
+}
+.nav__inner{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+.nav__logo{ display: flex; align-items: center; flex-shrink: 0; }
+.nav__logo img{
+  height: 62px;
+  width: auto;
+}
+@media (min-width: 640px){ .nav__logo img{ height: 72px; } }
+
+.nav__links{
+  display: none;
+  align-items: center;
+  gap: 2.1rem;
+}
+@media (min-width: 900px){
+  .nav__links{ display: flex; }
+}
+.nav__links a{
+  color: var(--forest);
+  font-size: var(--text-base);
+  font-weight: var(--weight-medium);
+  letter-spacing: 0.03em;
+  transition: color .2s var(--ease);
+}
+.nav__links a:hover{ color: var(--leaf); }
+
+.nav__cta{ display: none; }
+@media (min-width: 640px){
+  .nav__cta{ display: inline-flex; }
+  .nav__cta .btn{ padding: 0.75rem 1.4rem; font-size: var(--text-2xs); }
+}
+
+.nav__burger{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 2.4rem; height: 2.4rem;
+  background: none; border: none;
+  padding: 0;
+}
+.nav__burger span{
+  display: block; height: 1.5px; width: 100%;
+  background: var(--forest);
+  transition: transform .25s var(--ease), opacity .25s var(--ease);
+}
+.nav__burger[aria-expanded="true"] span:nth-child(1){ transform: translateY(6.5px) rotate(45deg); }
+.nav__burger[aria-expanded="true"] span:nth-child(2){ opacity: 0; }
+.nav__burger[aria-expanded="true"] span:nth-child(3){ transform: translateY(-6.5px) rotate(-45deg); }
+@media (min-width: 900px){ .nav__burger{ display: none; } }
+
+.nav__mobile{
+  display: none;
+  flex-direction: column;
+  gap: 0.2rem;
+  padding: 0.6rem 1.25rem 1.4rem;
+  background: var(--cream);
+  border-top: 1px solid var(--line);
+}
+.nav__mobile.is-open{ display: flex; }
+.nav__mobile a{
+  padding: 0.85rem 0.2rem;
+  color: var(--forest);
+  font-size: var(--text-md);
+  font-weight: var(--weight-medium);
+  border-bottom: 1px solid var(--line);
+}
+.nav__mobile .btn{ margin-top: 0.9rem; }
+@media (min-width: 900px){ .nav__mobile{ display: none !important; } }
+
+/* -------------------------------------------------------------------------
+   8. HERO
+   ------------------------------------------------------------------------- */
+.hero{
+  position: relative;
+  background: var(--forest);
+  color: var(--cream);
+  padding-top: clamp(3.2rem, 8vw, 5.5rem);
+  padding-bottom: 0;
+  overflow: hidden;
+}
+/* Mobile/tablet: content stacks — headline block, then the form card below
+   it. Desktop: a real two-column hero (headline left, form card right)
+   instead of everything stacked full-width in one narrow centered column,
+   which is what was reading as broken/unbalanced on a laptop-width window. */
+.hero__layout{ padding-bottom: var(--space-8); }
+@media (min-width: 1000px){
+  .hero__layout{
+    display: grid;
+    grid-template-columns: 1.15fr 440px;
+    gap: 4rem;
+    align-items: center;
+    padding-top: 2rem;
+    padding-bottom: 5rem;
+  }
+}
+.hero__bg{
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+.hero__bg img{
+  width: 100%; height: 100%; object-fit: cover;
+  /* aerial-2.jpg is now pre-cropped tight around the villas themselves
+     (near-square, not the original wide landscape frame) specifically so
+     object-fit:cover can't land on empty field or background towers no
+     matter how tall/narrow the hero container gets — center is reliable. */
+  object-position: 50% 40%;
+}
+.hero__bg::after{
+  content: "";
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg, rgba(15,28,20,0.7) 0%, rgba(15,28,20,0.78) 55%, rgba(15,28,20,0.94) 100%);
+}
+.hero__content{ position: relative; z-index: 1; padding-bottom: var(--space-8); }
+@media (min-width: 1000px){ .hero__content{ padding-bottom: 0; } }
+.hero__eyebrow{
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  font-size: var(--text-sm);
+  font-weight: var(--weight-bold);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold-on-dark);
+  text-shadow: 0 2px 10px rgba(0,0,0,0.55), 0 1px 3px rgba(0,0,0,0.7);
+  margin-bottom: var(--space-5);
+}
+.hero__eyebrow-mark{
+  height: 34px;
+  width: auto;
+  flex-shrink: 0;
+  filter: drop-shadow(0 2px 6px rgba(0,0,0,0.5));
+}
+.hero h1{
+  font-size: var(--text-display-xl);
+  font-weight: var(--weight-regular);
+  color: var(--white);
+  max-width: 14ch;
+}
+.hero__sub{
+  margin-top: var(--space-5);
+  font-size: var(--text-display-xs);
+  color: rgba(248,245,236,0.86);
+  max-width: 52ch;
+  /* Playfair Display's italic cut is quite flourished/calligraphic — reads
+     as "cursive" rather than just slanted, especially at this size over a
+     photo. Roman (upright) keeps the same serif but drops the script feel. */
+  font-family: var(--font-display);
+}
+
+.hero__form-wrap{ position: relative; z-index: 1; }
+.hero__form{
+  /* Glassmorphism: frosted translucent panel over the hero photo rather
+     than a solid white card — background shows through, softened by blur. */
+  background: rgba(255,255,255,0.14);
+  -webkit-backdrop-filter: blur(22px) saturate(160%);
+  backdrop-filter: blur(22px) saturate(160%);
+  border: 1px solid rgba(255,255,255,0.32);
+  color: var(--cream);
+  border-radius: var(--radius-card);
+  padding: 1.75rem 1.4rem 2rem;
+  box-shadow: 0 30px 60px rgba(15,28,20,0.45);
+  margin: 0 auto;
+  max-width: 480px;
+  transform: translateY(2.5rem);
+}
+@media (min-width: 640px){
+  .hero__form{ padding: 2.25rem 2rem 2.4rem; }
+}
+@media (min-width: 1000px){
+  /* The translateY "float past the fold" trick is a mobile-only effect —
+     at desktop the form sits in its own grid column beside the headline,
+     so it needs to just sit centered in that column instead. */
+  .hero__form{ max-width: 100%; transform: none; }
+  .hero__form-spacer{ display: none; }
+}
+.hero__form h2{
+  font-size: var(--text-xl);
+  font-weight: var(--weight-semibold);
+  font-family: var(--font-body);
+  color: var(--white);
+}
+.hero__form .form-note{
+  color: rgba(248,245,236,0.78);
+  font-size: var(--text-base);
+  margin-top: 0.35rem;
+  margin-bottom: 1.4rem;
+}
+.hero__form .field label{ color: rgba(248,245,236,0.82); }
+.hero__form .field label .label-hint{ color: rgba(248,245,236,0.6); }
+.hero__form .field input,
+.hero__form .field select{
+  background: rgba(255,255,255,0.88);
+  border-color: rgba(255,255,255,0.5);
+}
+.hero__form .field input:focus,
+.hero__form .field select:focus{ background: var(--white); }
+.hero__form .form-fineprint{ color: rgba(248,245,236,0.65); }
+.hero__form .form-success h3{ color: var(--white); }
+.hero__form .form-success p{ color: rgba(248,245,236,0.8); }
+.hero__form-spacer{ height: var(--space-8); }
+@media (min-width: 640px){ .hero__form-spacer{ height: 3.6rem; } }
+
+/* -------------------------------------------------------------------------
+   9. FORM FIELDS
+   ------------------------------------------------------------------------- */
+.field{ margin-bottom: var(--space-3); }
+.field label{
+  display: block;
+  font-size: var(--text-xs);
+  font-weight: var(--weight-bold);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--taupe);
+  margin-bottom: var(--space-1);
+}
+.field label .label-hint{
+  font-weight: var(--weight-regular);
+  text-transform: none;
+  letter-spacing: normal;
+  font-style: italic;
+  color: var(--taupe);
+  opacity: 0.75;
+  font-size: 0.95em;
+}
+.field input,
+.field select{
+  width: 100%;
+  padding: 0.85rem 1rem;
+  border: 1.5px solid var(--line);
+  border-radius: 10px;
+  background: var(--cream);
+  color: var(--forest);
+  font-size: var(--text-md);
+  transition: border-color .2s var(--ease), background .2s var(--ease);
+}
+.field select{ appearance: none; -webkit-appearance:none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='9'%3E%3Cpath d='M1 1l6 6 6-6' stroke='%236E6B5E' stroke-width='1.6' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  padding-right: 2.2rem;
+}
+.field input:focus,
+.field select:focus{
+  outline: none;
+  border-color: var(--leaf);
+  background: var(--white);
+}
+.field input:disabled,
+.field select:disabled{
+  opacity: 0.6;
+  cursor: not-allowed;
+  background: var(--line);
+}
+.field input.invalid,
+.field select.invalid{
+  border-color: var(--error);
+  background: var(--error-bg);
+}
+.field-error{
+  display: none;
+  color: var(--error);
+  font-size: var(--text-xs);
+  margin-top: 0.35rem;
+}
+.field.has-error .field-error{ display: block; }
+.field.has-error label{ color: var(--error); }
+
+.form-fineprint{
+  font-size: var(--text-xs);
+  color: var(--taupe);
+  text-align: center;
+  margin-top: 1rem;
+  line-height: 1.5;
+}
+.form-success{
+  display: none;
+  text-align: center;
+  padding: 1.5rem 0.5rem;
+}
+.form-success.is-visible{ display: block; }
+.form-success h3{ font-family: var(--font-body); font-size: var(--text-lg); font-weight: var(--weight-bold); margin-bottom: 0.5rem; }
+.form-success p{ color: var(--taupe); font-size: var(--text-base); }
+form.is-hidden > *:not(.form-success){ display: none; }
+
+/* -------------------------------------------------------------------------
+   10. CREDIBILITY STRIP
+   ------------------------------------------------------------------------- */
+.strip{
+  background: var(--cream-deep);
+  padding: 2.6rem 0 1.9rem;
+  border-bottom: 1px solid var(--line);
+}
+.strip__grid{
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.6rem 1rem;
+  text-align: center;
+}
+@media (min-width: 700px){
+  .strip__grid{ grid-template-columns: repeat(4, 1fr); }
+}
+.strip__stat .num{
+  font-family: var(--font-display);
+  font-size: var(--text-display-sm);
+  color: var(--forest);
+  font-weight: var(--weight-semibold);
+}
+.strip__stat .lab{
+  margin-top: 0.3rem;
+  font-size: var(--text-2xs);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--taupe);
+}
+/* -------------------------------------------------------------------------
+   11. STAT PAIR (gold italic label beside bold serif numeral)
+   ------------------------------------------------------------------------- */
+.stat-pair{ display: flex; align-items: baseline; flex-wrap: wrap; gap: 0.5rem 0.6rem; }
+.stat-pair .num{
+  font-family: var(--font-display);
+  font-weight: var(--weight-bold);
+  font-size: var(--text-display-lg);
+  line-height: 1;
+  color: var(--forest);
+  white-space: nowrap;
+}
+.on-dark .stat-pair .num{ color: var(--white); }
+.stat-pair .lab{
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: var(--weight-regular);
+  font-size: var(--text-lg);
+  color: var(--gold);
+}
+
+/* -------------------------------------------------------------------------
+   12. GHOST NUMERAL
+   ------------------------------------------------------------------------- */
+.ghost-num{
+  position: absolute;
+  font-family: var(--font-display);
+  font-weight: var(--weight-semibold);
+  font-size: var(--text-ghost);
+  line-height: 1;
+  color: rgba(248,245,236,0.14);
+  z-index: 0;
+  pointer-events: none;
+  user-select: none;
+}
+.on-cream .ghost-num, .ghost-num--dark{ color: rgba(22,40,29,0.08); }
+
+/* -------------------------------------------------------------------------
+   13. ORGANIC IMAGE MASKS
+   ------------------------------------------------------------------------- */
+.mask-arch{
+  border-radius: 50% 50% 0 0 / 30% 30% 0 0;
+  overflow: hidden;
+  aspect-ratio: 3 / 4;
+}
+.mask-blob{
+  overflow: hidden;
+  aspect-ratio: 4 / 5;
+  border-radius: 4% 40% 4% 40% / 40% 4% 40% 4%;
+}
+.mask-blob img, .mask-arch img{ width: 100%; height: 100%; object-fit: cover; }
+
+@media (min-width: 780px){
+  .mask-blob{ border-radius: 6% 55% 6% 55% / 55% 6% 55% 6%; }
+}
+
+/* -------------------------------------------------------------------------
+   14. BACKGROUND TEXTURE (faint line-art, per design system item #5)
+   ------------------------------------------------------------------------- */
+.texture-contour{
+  position: absolute;
+  right: 0%;
+  bottom: -8%;
+  width: 60%;
+  max-width: 620px;
+  opacity: 0.07;
+  pointer-events: none;
+  z-index: 0;
+  color: var(--forest);
+}
+.on-dark .texture-contour{ opacity: 0.08; color: var(--cream); }
+/* Mirrored placement so the motif doesn't land in the exact same corner on
+   every single section down the page — a light recurring thread rather
+   than a repeated sticker. */
+.texture-contour--left{ right: auto; left: 0%; transform: scaleX(-1); }
+.texture-contour--hero{ opacity: 0.1; color: var(--cream); bottom: -4%; width: 46%; }
+/* Any section using a decorative z-index:0 background layer (texture, etc.)
+   needs its real content explicitly stacked above it — position:relative +
+   z-index:auto content does NOT automatically paint over a positioned
+   z-index:0 sibling, so without this the texture would sit on top. */
+section > .wrap{ position: relative; z-index: 1; }
+
+/* -------------------------------------------------------------------------
+   15. OVERVIEW / GENERIC TWO-COL MEDIA SECTION
+   ------------------------------------------------------------------------- */
+.media-row{
+  display: grid;
+  gap: var(--space-6);
+  align-items: center;
+}
+@media (min-width: 860px){
+  .media-row{ grid-template-columns: 1fr 1fr; gap: var(--space-8); }
+  .media-row--reverse{ direction: rtl; }
+  .media-row--reverse > *{ direction: ltr; }
+}
+.media-row figure{ position: relative; }
+.media-row figcaption{
+  margin-top: 0.8rem;
+  font-size: var(--text-xs);
+  color: var(--taupe);
+  letter-spacing: 0.03em;
+}
+
+/* -------------------------------------------------------------------------
+   16. TAG PILL (e.g. "Already Built In Goa")
+   ------------------------------------------------------------------------- */
+.tag-pill{
+  display: inline-block;
+  background: var(--gold);
+  color: var(--forest-deep);
+  font-size: var(--text-2xs);
+  font-weight: var(--weight-bold);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.45em 1em;
+  border-radius: var(--radius-pill);
+  margin-bottom: 1.1rem;
+}
+
+/* -------------------------------------------------------------------------
+   17. PROOF OF DELIVERY — portfolio-card pattern: headline stands as real
+       text beside/above the card; the photo itself is a compact tile with
+       a tag pinned inside the top and name+location pinned inside the
+       bottom, photos crossfading behind — matches the client's reference.
+   ------------------------------------------------------------------------- */
+.proof-card-layout{
+  display: grid;
+  gap: var(--space-6);
+  align-items: center;
+}
+@media (min-width: 860px){
+  .proof-card-layout{ grid-template-columns: 0.9fr 1.1fr; gap: var(--space-8); }
+}
+.proof-card-layout__text .headline{ max-width: 16ch; }
+
+.proof-card{
+  position: relative;
+  aspect-ratio: 4 / 3;
+  border-radius: var(--radius-card);
+  overflow: hidden;
+  box-shadow: 0 20px 50px rgba(15,28,20,0.22);
+}
+.proof-card__tag{
+  position: absolute;
+  top: 1.1rem;
+  left: 1.1rem;
+  z-index: 2;
+  background: rgba(15,28,20,0.55);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  color: var(--white);
+  font-size: var(--text-2xs);
+  font-weight: var(--weight-bold);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.5em 1em;
+  border-radius: var(--radius-pill);
+}
+.proof-card__bg{ position: absolute; inset: 0; z-index: 0; }
+.proof-card__bg img{
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 1.4s ease;
+}
+.proof-card__bg img.is-active{ opacity: 1; }
+.proof-card::after{
+  content: "";
+  position: absolute; inset: 0; z-index: 1;
+  background: linear-gradient(180deg, transparent 55%, rgba(15,28,20,0.78) 100%);
+}
+.proof-card__caption{
+  position: absolute;
+  left: 1.1rem;
+  bottom: 1rem;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+}
+.proof-card__name{
+  font-family: var(--font-display);
+  font-weight: var(--weight-bold);
+  font-size: var(--text-lg);
+  color: var(--white);
+}
+.proof-card__loc{
+  font-size: var(--text-sm);
+  color: rgba(248,245,236,0.75);
+  letter-spacing: 0.02em;
+}
+
+/* -------------------------------------------------------------------------
+   18. LANDMARK LIST (Location section)
+   ------------------------------------------------------------------------- */
+.location-layout{
+  display: grid;
+  gap: var(--space-6);
+  align-items: start;
+}
+@media (min-width: 860px){
+  .location-layout{ grid-template-columns: 1fr 1.2fr; gap: var(--space-8); }
+}
+.landmark-list li{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--line);
+}
+.landmark-list li:first-child{ border-top: 1px solid var(--line); }
+.landmark-list .name{
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  font-weight: var(--weight-semibold);
+}
+.landmark-list .name svg{ width: 1.15rem; height: 1.15rem; color: var(--leaf); flex-shrink: 0; }
+.landmark-list .dist{
+  font-family: var(--font-display);
+  font-style: italic;
+  color: var(--gold);
+  font-weight: var(--weight-semibold);
+  white-space: nowrap;
+}
+
+.location-map{
+  position: relative;
+  aspect-ratio: 4 / 3;
+  border-radius: var(--radius-card);
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background: var(--cream-deep);
+}
+.location-map iframe{
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+
+/* -------------------------------------------------------------------------
+   19. CARD GRIDS — beaches / amenities / interiors
+   ------------------------------------------------------------------------- */
+.card{
+  border-radius: var(--radius-card);
+  overflow: hidden;
+  position: relative;
+  background: var(--white);
+}
+.card--photo{ aspect-ratio: 3/4; }
+.card--photo img{ width: 100%; height: 100%; object-fit: cover; transition: transform .5s var(--ease); }
+.card--photo:hover img{ transform: scale(1.05); }
+.card--photo .card__label{
+  position: absolute; left: 0; right: 0; bottom: 0;
+  padding: 1.1rem 1.1rem 0.9rem;
+  background: linear-gradient(180deg, transparent, rgba(15,28,20,0.85));
+  color: var(--white);
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+}
+
+.card--icon{
+  position: relative;
+  overflow: hidden;
+  background: var(--cream-deep);
+  border: 1px solid var(--line);
+  padding: var(--space-6) var(--space-4);
+  text-align: center;
+  aspect-ratio: auto;
+}
+.ghost-num--card{
+  top: -0.28em;
+  right: -0.05em;
+  font-size: var(--text-ghost-sm);
+}
+.card--icon .icon{
+  position: relative;
+  width: 2.4rem; height: 2.4rem;
+  margin: 0 auto 1.1rem;
+  color: var(--forest);
+}
+.card--icon .icon svg{ width: 100%; height: 100%; }
+.card--icon h3{
+  font-family: var(--font-display);
+  font-weight: var(--weight-bold);
+  font-size: var(--text-lg);
+  letter-spacing: 0.01em;
+}
+.card--icon p{ color: var(--taupe); font-size: var(--text-sm); margin-top: 0.4rem; }
+
+/* -------------------------------------------------------------------------
+   19c. BEACH PHOTO CARDS — real photography, structured to match the
+        client's "Dream Destinations" reference: photo frame on top, small-
+        caps name below the frame (not overlaid on the image itself).
+   ------------------------------------------------------------------------- */
+.beach-photo-grid{
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-6);
+}
+@media (min-width: 700px){
+  .beach-photo-grid{ grid-template-columns: repeat(4, 1fr); }
+}
+.beach-card__frame{
+  aspect-ratio: 3 / 4;
+  border-radius: var(--radius-card);
+  overflow: hidden;
+}
+.beach-card__frame img{
+  width: 100%; height: 100%; object-fit: cover;
+  transition: transform .5s var(--ease);
+}
+.beach-card:hover .beach-card__frame img{ transform: scale(1.05); }
+.beach-card figcaption{
+  margin-top: var(--space-3);
+  text-align: center;
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--taupe);
+}
+
+/* -------------------------------------------------------------------------
+   19b. MARQUEE — continuous horizontal auto-scroll, used for Amenities and
+        the Hospitality interior gallery. Content is duplicated once in the
+        HTML; the track animates -50% so the loop has no visible seam.
+        Pauses on hover/focus and respects prefers-reduced-motion.
+   ------------------------------------------------------------------------- */
+.marquee{
+  margin-top: var(--space-7);
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+}
+.marquee__track{
+  display: flex;
+  gap: 1.2rem;
+  width: max-content;
+  animation: marquee-scroll 32s linear infinite;
+}
+.marquee:hover .marquee__track,
+.marquee:focus-within .marquee__track{ animation-play-state: paused; }
+.marquee .card--icon{
+  width: 210px;
+  flex-shrink: 0;
+}
+.marquee .card--photo{
+  width: 260px;
+  aspect-ratio: 4/5;
+  flex-shrink: 0;
+}
+@keyframes marquee-scroll{
+  from{ transform: translateX(0); }
+  to{ transform: translateX(-50%); }
+}
+@media (prefers-reduced-motion: reduce){
+  .marquee__track{ animation: none; overflow-x: auto; }
+}
+
+
+/* -------------------------------------------------------------------------
+   20. GROWTH / WHY NOW — colorful illustrated icon grid, styled after the
+       client's own reference graphic: soft watery gradient band behind the
+       headline, mixed-weight serif title, full-color icon illustrations
+       (not the site's usual single-tone line icons) on white tiles.
+   ------------------------------------------------------------------------- */
+.growth-section{
+  background: linear-gradient(180deg, #CFE8E3 0%, #E7EFE4 45%, var(--cream) 100%);
+  padding: var(--section-pad-y) 0;
+}
+.growth-eyebrow{
+  color: var(--terracotta) !important;
+  opacity: 1;
+  display: block;
+  text-align: center;
+}
+.growth-title{
+  font-family: var(--font-display);
+  font-weight: var(--weight-regular);
+  font-size: var(--text-display-xl);
+  color: var(--growth-navy);
+  letter-spacing: -0.01em;
+}
+.growth-title em{ font-style: italic; font-weight: var(--weight-semibold); color: var(--terracotta); }
+
+.growth-grid{
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-card);
+  overflow: hidden;
+  margin-top: var(--space-7);
+  box-shadow: 0 20px 50px rgba(15,28,20,0.08);
+}
+@media (min-width: 700px){
+  .growth-grid{ grid-template-columns: repeat(4, 1fr); }
+}
+.growth-item{
+  background: var(--white);
+  padding: 1.8rem 1.3rem;
+  text-align: center;
+}
+/* Scoped as a descendant selector (.growth-item .growth-icon), not a bare
+   .growth-icon class — the markup carries class="icon growth-icon" on the
+   same element, and a bare .growth-icon would tie in specificity with the
+   generic .icon utility (section 27) and lose to it on source order, which
+   is exactly why these were rendering at the tiny 1.2rem default instead of
+   their intended size. */
+.growth-item .growth-icon{
+  width: 4.8rem; height: 4.8rem;
+  margin: 0 auto 1.1rem;
+}
+@media (min-width: 700px){
+  .growth-item .growth-icon{ width: 5.4rem; height: 5.4rem; }
+}
+.growth-icon svg{ width: 100%; height: 100%; }
+.growth-item h4{
+  font-family: var(--font-body);
+  font-weight: var(--weight-bold);
+  font-size: var(--text-sm);
+  letter-spacing: 0.01em;
+  line-height: 1.3;
+}
+.growth-item p{
+  font-size: var(--text-xs);
+  color: var(--taupe);
+  margin-top: 0.5rem;
+  line-height: 1.45;
+}
+
+/* -------------------------------------------------------------------------
+   21. INVESTMENT SECTION
+   ------------------------------------------------------------------------- */
+.invest-stats{
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-5);
+  margin-top: var(--space-7);
+  border-top: 1px solid var(--line-on-dark);
+  padding-top: var(--space-6);
+}
+@media (min-width: 700px){
+  .invest-stats{ grid-template-columns: repeat(3, 1fr); }
+}
+.invest-disclaimer{
+  margin-top: var(--space-5);
+  font-size: var(--text-xs);
+  color: rgba(248,245,236,0.5);
+  font-style: italic;
+}
+
+/* -------------------------------------------------------------------------
+   22. FLOOR PLANS
+   ------------------------------------------------------------------------- */
+.fp-tabs{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-bottom: var(--space-6);
+}
+.fp-tab{
+  padding: 0.65rem 1.3rem;
+  border-radius: var(--radius-pill);
+  border: 1.5px solid var(--forest);
+  background: transparent;
+  color: var(--forest);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-bold);
+  letter-spacing: 0.02em;
+  transition: background .2s var(--ease), color .2s var(--ease);
+}
+.fp-tab[aria-selected="true"]{ background: var(--forest); color: var(--cream); }
+
+.fp-floor-tabs{
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1.4rem;
+}
+.fp-floor-tab{
+  padding: 0.45rem 1rem;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--line);
+  background: var(--white);
+  color: var(--taupe);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-bold);
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+.fp-floor-tab[aria-selected="true"]{ border-color: var(--leaf); color: var(--forest); background: var(--cream-deep); }
+
+.fp-panel{ display: none; }
+.fp-panel.is-active{ display: block; animation: fadeIn .35s var(--ease); }
+@keyframes fadeIn{ from{ opacity: 0; transform: translateY(6px);} to{ opacity: 1; transform: translateY(0);} }
+
+/* Floor Plans gets a wider container than the rest of the site so the
+   render itself reads as the main event, not a small frame lost in a
+   standard-width column. The display itself also gets real elevation (a
+   proper shadow, not just a hairline border) and more generous padding at
+   wide viewports — it was previously styled more like a plain bordered box
+   than the "featured" element it actually is on the page. */
+#floor-plans.section--cream-deep .wrap{ max-width: 1480px; }
+.fp-display{
+  /* Render fills the frame edge-to-edge now — no white padding/border
+     around the image. The frame itself is still visible as the rounded
+     corners + shadow below, just not as a margin of white around the photo. */
+  position: relative;
+  border-radius: var(--radius-card);
+  box-shadow: 0 28px 64px rgba(15,28,20,0.14);
+  overflow: hidden;
+  margin-top: var(--space-2);
+}
+.fp-display img{ width: 100%; display: block; }
+.fp-meta{
+  margin-top: 1.2rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.fp-meta p{ color: var(--taupe); font-size: var(--text-base); }
+
+/* -------------------------------------------------------------------------
+   24. FAQ ACCORDION
+   ------------------------------------------------------------------------- */
+.faq-list{ margin-top: 2rem; border-top: 1px solid var(--line); }
+.faq-item{ border-bottom: 1px solid var(--line); }
+.faq-q{
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  background: none;
+  border: none;
+  text-align: left;
+  padding: 1.35rem 0;
+  font-family: var(--font-body);
+  font-weight: var(--weight-bold);
+  font-size: var(--text-md);
+  color: var(--forest);
+}
+.faq-q .plus{
+  flex-shrink: 0;
+  width: 1.6rem; height: 1.6rem;
+  position: relative;
+}
+.faq-q .plus::before, .faq-q .plus::after{
+  content: "";
+  position: absolute;
+  background: var(--forest);
+  transition: transform .25s var(--ease);
+}
+.faq-q .plus::before{ left: 0; top: 50%; width: 100%; height: 1.5px; transform: translateY(-50%); }
+.faq-q .plus::after{ top: 0; left: 50%; height: 100%; width: 1.5px; transform: translateX(-50%); }
+.faq-item.is-open .faq-q .plus::after{ transform: translateX(-50%) rotate(90deg); opacity: 0; }
+
+.faq-a{
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height .35s var(--ease);
+}
+.faq-item.is-open .faq-a{ max-height: 240px; }
+.faq-a p{
+  padding-bottom: 1.4rem;
+  color: var(--taupe);
+  font-size: var(--text-base);
+  max-width: 60ch;
+  line-height: 1.6;
+}
+/* -------------------------------------------------------------------------
+   25. FOOTER
+   ------------------------------------------------------------------------- */
+.footer{
+  background: var(--forest-deep);
+  color: rgba(248,245,236,0.78);
+  padding: 4rem 0 6.5rem;
+}
+@media (min-width: 700px){ .footer{ padding-bottom: 4rem; } }
+.footer__grid{
+  display: grid;
+  gap: 2.6rem;
+}
+@media (min-width: 780px){
+  .footer__grid{ grid-template-columns: 1.3fr 1fr 1fr; gap: var(--space-6); }
+}
+.footer__brand img{
+  height: 44px;
+  width: auto;
+  max-width: 100%;
+  margin-bottom: 1.2rem;
+}
+.footer__brand p{ font-size: var(--text-base); color: rgba(248,245,236,0.6); margin-bottom: 1.3rem; }
+.footer__socials{
+  display: flex;
+  gap: var(--space-2);
+  margin-bottom: var(--space-5);
+}
+.footer__social{
+  display: flex;
+  width: 2.3rem; height: 2.3rem;
+  border-radius: 50%;
+  overflow: hidden;
+  transition: transform .2s var(--ease);
+}
+.footer__social:hover{ transform: translateY(-2px); }
+.footer__social .icon{ width: 100%; height: 100%; }
+.footer h5{
+  font-size: var(--text-2xs);
+  font-weight: var(--weight-bold);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 1rem;
+}
+.footer__address{ font-size: var(--text-base); line-height: 1.6; color: rgba(248,245,236,0.7); }
+.footer__address--tbd{ color: var(--terracotta); font-style: italic; }
+.footer__bottom{
+  margin-top: 3rem;
+  padding-top: 1.6rem;
+  border-top: 1px solid var(--line-on-dark);
+  font-size: var(--text-xs);
+  color: rgba(248,245,236,0.45);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem 1.5rem;
+  justify-content: space-between;
+}
+.footer__bottom .tbd{ color: var(--terracotta); }
+
+/* -------------------------------------------------------------------------
+   26. FLOATING WHATSAPP + STICKY MOBILE BAR
+   ------------------------------------------------------------------------- */
+.whatsapp-float{
+  position: fixed;
+  right: 1.1rem;
+  bottom: 5.4rem;
+  z-index: 70;
+  width: 3.4rem; height: 3.4rem;
+  border-radius: 50%;
+  background: #25D366;
+  color: var(--white);
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 10px 26px rgba(0,0,0,0.28);
+  transition: transform .2s var(--ease);
+}
+.whatsapp-float:hover{ transform: scale(1.06); }
+.whatsapp-float svg{ width: 1.7rem; height: 1.7rem; }
+@media (min-width: 900px){
+  .whatsapp-float{ bottom: 1.6rem; }
+}
+
+.sticky-bar{
+  position: fixed;
+  left: 0; right: 0; bottom: 0;
+  z-index: 65;
+  display: flex;
+  background: var(--white);
+  border-top: 1px solid var(--line);
+  box-shadow: 0 -8px 24px rgba(15,28,20,0.12);
+}
+@media (min-width: 900px){ .sticky-bar{ display: none; } }
+.sticky-bar a{
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 1rem 0.5rem;
+  font-size: var(--text-sm);
+  font-weight: var(--weight-bold);
+  letter-spacing: 0.02em;
+}
+.sticky-bar .call{ color: var(--forest); border-right: 1px solid var(--line); }
+.sticky-bar .cb{ background: linear-gradient(100deg, var(--teal), var(--leaf)); color: var(--white); }
+.sticky-bar svg{ width: 1.05rem; height: 1.05rem; }
+
+/* spacer so content isn't hidden behind sticky bar on mobile */
+.mobile-bar-spacer{ height: 64px; }
+@media (min-width: 900px){ .mobile-bar-spacer{ display: none; } }
+
+/* -------------------------------------------------------------------------
+   28. BROCHURE MODAL
+   ------------------------------------------------------------------------- */
+.modal{
+  position: fixed; inset: 0; z-index: 90;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 1.2rem;
+}
+.modal.is-open{ display: flex; }
+.modal__backdrop{
+  position: absolute; inset: 0;
+  background: rgba(15,28,20,0.62);
+}
+.modal__panel{
+  position: relative;
+  z-index: 1;
+  background: var(--white);
+  color: var(--forest);
+  border-radius: var(--radius-card);
+  padding: 2rem 1.6rem;
+  width: 100%;
+  max-width: 440px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 30px 70px rgba(0,0,0,0.4);
+  animation: modalIn .25s var(--ease);
+}
+@keyframes modalIn{ from{ opacity:0; transform: translateY(12px) scale(0.98); } to{ opacity:1; transform: translateY(0) scale(1); } }
+.modal__logo{
+  height: 28px;
+  width: auto;
+  margin-bottom: 1rem;
+}
+.modal__panel h3{
+  font-family: var(--font-body);
+  font-size: var(--text-lg);
+  font-weight: var(--weight-bold);
+  padding-right: 2rem;
+}
+.modal__close{
+  position: absolute;
+  top: 1rem; right: 1rem;
+  width: 2.1rem; height: 2.1rem;
+  border-radius: 50%;
+  background: var(--cream-deep);
+  border: none;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--forest);
+}
+.modal__close svg{ width: 1rem; height: 1rem; }
+
+/* -------------------------------------------------------------------------
+   29. UTILITIES
+   ------------------------------------------------------------------------- */
+.center{ text-align: center; }
+.mt-lg{ margin-top: 2.5rem; }
+.visually-hidden{
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+}
+.skip-link{
+  position: absolute; left: -999px; top: 0; z-index: 100;
+  background: var(--forest); color: var(--cream); padding: 0.8rem 1.2rem;
+}
+.skip-link:focus{ left: 1rem; top: 1rem; }

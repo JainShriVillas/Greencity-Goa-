@@ -1,0 +1,8 @@
+# Local-only Claude Code settings (machine-specific tool permissions) —
+# .claude/launch.json (the dev-preview server config) IS committed on purpose.
+.claude/settings.local.json
+
+# OS cruft
+Thumbs.db
+desktop.ini
+.DS_Store
