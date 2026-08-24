@@ -539,7 +539,12 @@ section{ padding: var(--section-pad-y) 0; position: relative; }
   .hero__form-spacer{ display: none; }
 }
 .hero__form h2{
-  font-size: var(--text-xl);
+  /* Was --text-xl — sized down so this reads as a card label under the
+     real headline above it, not a second, competing headline. The form
+     was one of several same-weight blocks stacked with no hierarchy
+     between them; this is one step in giving it less visual authority
+     than the H1. */
+  font-size: var(--text-md);
   font-weight: var(--weight-semibold);
   font-family: var(--font-body);
   color: var(--white);
@@ -550,8 +555,12 @@ section{ padding: var(--section-pad-y) 0; position: relative; }
   margin-top: 0.35rem;
   margin-bottom: 1.4rem;
 }
-.hero__form .field label{ color: rgba(248,245,236,0.82); }
-.hero__form .field label .label-hint{ color: rgba(248,245,236,0.6); }
+.hero__form .field label{
+  color: rgba(248,245,236,0.75);
+  font-weight: var(--weight-medium);
+  letter-spacing: 0.02em;
+}
+.hero__form .field label .label-hint{ color: rgba(248,245,236,0.55); }
 .hero__form .field input,
 .hero__form .field select{
   background: rgba(255,255,255,0.88);
@@ -568,6 +577,14 @@ section{ padding: var(--section-pad-y) 0; position: relative; }
 /* -------------------------------------------------------------------------
    9. FORM FIELDS
    ------------------------------------------------------------------------- */
+/* Name + Mobile share a row in the hero form — cuts one row's worth of
+   height out of what was reading as a long unbroken stack of fields. */
+.field-row{ display: flex; gap: var(--space-3); }
+.field-row .field{ flex: 1 1 0; min-width: 0; }
+.field-row .field input{ padding-left: 0.85rem; padding-right: 0.85rem; }
+@media (max-width: 359px){
+  .field-row{ flex-direction: column; gap: 0; }
+}
 .field{ margin-bottom: var(--space-3); }
 .field label{
   display: block;
