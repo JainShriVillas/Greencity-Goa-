@@ -114,7 +114,13 @@
    2. RESET
    ------------------------------------------------------------------------- */
 *, *::before, *::after{ box-sizing: border-box; }
-html{ scroll-behavior: smooth; }
+/* overflow-x:hidden on BOTH html and body — body alone is what desktop Chrome
+   needs and is what this file had, but iOS Safari treats <html> as the real
+   scrolling container, so body-only clipping doesn't stop the sideways
+   scroll/rubber-band there even though nothing visibly overflows. This is
+   why a real iPhone could scroll right into blank space while every
+   Chromium-based check during development reported zero overflow. */
+html{ scroll-behavior: smooth; overflow-x: hidden; width: 100%; }
 body{
   margin: 0;
   background: var(--cream);
