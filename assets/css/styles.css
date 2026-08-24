@@ -473,7 +473,10 @@ section{ padding: var(--section-pad-y) 0; position: relative; }
 .hero__bg::after{
   content: "";
   position: absolute; inset: 0;
-  background: linear-gradient(180deg, rgba(15,28,20,0.7) 0%, rgba(15,28,20,0.78) 55%, rgba(15,28,20,0.94) 100%);
+  /* Lightened from 0.7/0.78/0.94 — the villas were getting lost under the
+     overlay; text is still legible (white text over the darkest, 55-100%
+     band) but the photo itself now reads through more. */
+  background: linear-gradient(180deg, rgba(15,28,20,0.55) 0%, rgba(15,28,20,0.62) 55%, rgba(15,28,20,0.8) 100%);
 }
 .hero__content{ position: relative; z-index: 1; padding-bottom: var(--space-8); }
 @media (min-width: 1000px){ .hero__content{ padding-bottom: 0; } }
