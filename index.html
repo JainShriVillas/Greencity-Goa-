@@ -45,7 +45,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700&family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,500&display=swap" rel="stylesheet">
 
-<link rel="stylesheet" href="assets/css/styles.css?v=30">
+<link rel="stylesheet" href="assets/css/styles.css?v=32">
 
 <!-- =========================================================================
      TRACKING — NOT YET INSTALLED. See Instruction Documents/01-brief.md, "Tracking".
@@ -339,8 +339,12 @@ gtag('config', 'AW-XXXXXXXXX');
   </div>
   <div class="wrap hero__layout">
     <img src="assets/img/logo/greencity-goa-stacked.svg?v=1" alt="Greencity Goa" class="hero__brand-mark">
-    <h1>Be a Part of<br>North Goa's<br>Changing Future.</h1>
-    <p class="hero__sub">Jain Shri Villas presents<br>2–5 BHK Boutique Villas and<br>300–500 sq. yd. Plots</p>
+    <!-- Headline text removed from view per client request (hero is now just
+         the brand mark + CTA) — kept as a visually-hidden real <h1> rather
+         than deleted outright, since a page with no h1 at all is a real SEO/
+         accessibility regression. Screen readers and search engines still
+         see it; sighted visitors just see the logo. -->
+    <h1 class="visually-hidden">Be a Part of North Goa's Changing Future — Jain Shri Villas presents 2–5 BHK Boutique Villas and 300–500 sq. yd. Plots</h1>
     <a href="#hero-form" class="btn btn--solid hero__cta">Get Full Project Details</a>
   </div>
   <svg class="texture-contour texture-contour--hero" aria-hidden="true" focusable="false"><use href="#texture-palm"/></svg>

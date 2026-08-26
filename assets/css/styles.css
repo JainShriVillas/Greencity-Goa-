@@ -371,10 +371,10 @@ section{ padding: var(--section-pad-y) 0; position: relative; }
 }
 .nav__logo{ display: flex; align-items: center; flex-shrink: 0; }
 .nav__logo img{
-  height: 44px;
+  height: 38px;
   width: auto;
 }
-@media (min-width: 640px){ .nav__logo img{ height: 72px; } }
+@media (min-width: 640px){ .nav__logo img{ height: 62px; } }
 
 .nav__links{
   display: none;
@@ -444,8 +444,14 @@ section{ padding: var(--section-pad-y) 0; position: relative; }
   position: relative;
   background: var(--forest);
   color: var(--cream);
-  padding-top: clamp(3.2rem, 8vw, 5.5rem);
-  padding-bottom: 0;
+  /* Content alone (logo + one CTA) is short now that the headline is
+     visually hidden — without a height floor the section collapsed to
+     ~40% of the viewport on phones, reading as a thin promo strip instead
+     of a hero. min-height + flex centering keeps it a proper full-screen
+     moment regardless of how little content is inside it. */
+  min-height: 82vh;
+  display: flex;
+  align-items: center;
   overflow: hidden;
 }
 /* The lead form used to live here in a two-column grid (headline left,
@@ -459,14 +465,17 @@ section{ padding: var(--section-pad-y) 0; position: relative; }
   text-align: center;
   max-width: 640px;
   margin: 0 auto;
-  padding-top: clamp(2.5rem, 8vw, 4.5rem);
-  padding-bottom: clamp(4rem, 12vw, 7rem);
+  width: 100%;
+  padding-top: clamp(1.5rem, 4vw, 2.5rem);
+  padding-bottom: clamp(1.5rem, 4vw, 2.5rem);
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 .hero__brand-mark{
-  height: clamp(64px, 16vw, 110px);
+  /* The logo is effectively the whole hero now that the headline text is
+     visually hidden — sized up accordingly (was 64-110px). */
+  height: clamp(110px, 30vw, 190px);
   width: auto;
   margin-bottom: clamp(1.6rem, 5vw, 2.6rem);
   filter: drop-shadow(0 6px 18px rgba(0,0,0,0.35));
@@ -491,25 +500,6 @@ section{ padding: var(--section-pad-y) 0; position: relative; }
      overlay; text is still legible (white text over the darkest, 55-100%
      band) but the photo itself now reads through more. */
   background: linear-gradient(180deg, rgba(15,28,20,0.55) 0%, rgba(15,28,20,0.62) 55%, rgba(15,28,20,0.8) 100%);
-}
-.hero h1{
-  /* No longer sharing --text-display-xl with the Growth section title —
-     sized down on its own (was locking to that token's 2.3rem floor on
-     mobile) and max-width dropped in favor of explicit <br> line breaks
-     in the markup, so the ch-based wrap limit doesn't fight them. */
-  font-size: clamp(1.9rem, 7vw, 3.6rem);
-  font-weight: var(--weight-regular);
-  color: var(--white);
-}
-.hero__sub{
-  margin-top: var(--space-5);
-  font-size: var(--text-display-xs);
-  color: rgba(248,245,236,0.86);
-  max-width: 52ch;
-  /* Playfair Display's italic cut is quite flourished/calligraphic — reads
-     as "cursive" rather than just slanted, especially at this size over a
-     photo. Roman (upright) keeps the same serif but drops the script feel. */
-  font-family: var(--font-display);
 }
 .hero__cta{
   margin-top: clamp(2rem, 6vw, 2.8rem);
