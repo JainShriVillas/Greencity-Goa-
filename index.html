@@ -45,7 +45,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700&family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,500&display=swap" rel="stylesheet">
 
-<link rel="stylesheet" href="assets/css/styles.css?v=29">
+<link rel="stylesheet" href="assets/css/styles.css?v=30">
 
 <!-- =========================================================================
      TRACKING — NOT YET INSTALLED. See Instruction Documents/01-brief.md, "Tracking".
@@ -304,8 +304,8 @@ gtag('config', 'AW-XXXXXXXXX');
      ========================================================================= -->
 <header class="nav">
   <div class="wrap nav__inner">
-    <a href="#top" class="nav__logo" aria-label="Greencity Goa — home">
-      <img src="assets/img/logo/greencity-goa-horizontal-forest.svg?v=7" alt="Greencity Goa">
+    <a href="#top" class="nav__logo" aria-label="Jain Shri Group — home">
+      <img src="assets/img/logo/jainshri-group-forest.png?v=1" alt="Jain Shri Group">
     </a>
     <nav class="nav__links" aria-label="Primary">
       <a href="#floor-plans">Floor Plans</a>
@@ -338,75 +338,11 @@ gtag('config', 'AW-XXXXXXXXX');
     <img src="assets/img/renders/aerial-2.jpg?v=6" alt="" loading="eager">
   </div>
   <div class="wrap hero__layout">
-  <div class="hero__content">
+    <img src="assets/img/logo/greencity-goa-stacked.svg?v=1" alt="Greencity Goa" class="hero__brand-mark">
     <h1>Be a Part of<br>North Goa's<br>Changing Future.</h1>
     <p class="hero__sub">Jain Shri Villas presents<br>2–5 BHK Boutique Villas and<br>300–500 sq. yd. Plots</p>
+    <a href="#hero-form" class="btn btn--solid hero__cta">Get Full Project Details</a>
   </div>
-
-  <div class="hero__form-wrap">
-    <!--
-      🔶 OPEN DECISION (01-brief.md / 02-content.md): keep this 5-field form,
-      or cut to name + mobile only for higher lead volume. Built as 5 fields
-      to match the wireframe; swap easily since each field is its own .field block.
-    -->
-    <form class="hero__form" id="hero-form" novalidate>
-      <h2>Get the full project details</h2>
-      <p class="form-note">Our team will call you within 24 hours.</p>
-
-      <div class="field-row">
-        <div class="field" data-field="name">
-          <label for="f-name">Full Name</label>
-          <input type="text" id="f-name" name="name" autocomplete="name" placeholder="Full name">
-          <p class="field-error">Please enter your name.</p>
-        </div>
-
-        <div class="field" data-field="mobile">
-          <label for="f-mobile">Mobile Number</label>
-          <input type="tel" id="f-mobile" name="mobile" autocomplete="tel" inputmode="numeric" placeholder="10-digit no.">
-          <p class="field-error">Please enter a valid 10-digit mobile number.</p>
-        </div>
-      </div>
-
-      <div class="field" data-field="email">
-        <label for="f-email">Email Address</label>
-        <input type="email" id="f-email" name="email" autocomplete="email" placeholder="you@example.com">
-        <p class="field-error">Please enter a valid email address.</p>
-      </div>
-
-      <div class="field" data-field="interest">
-        <label for="f-interest">Interest</label>
-        <select id="f-interest" name="interest">
-          <option value="" selected disabled>I'm interested in…</option>
-          <option value="plot">Plot</option>
-          <option value="villa">Villa</option>
-          <option value="not-sure">Not sure yet</option>
-        </select>
-        <p class="field-error">Please select an option.</p>
-      </div>
-
-      <div class="field" data-field="budget">
-        <label for="f-budget">Budget Range <span class="label-hint">(so we can tell you if it fits)</span></label>
-        <select id="f-budget" name="budget">
-          <option value="" selected disabled>Budget range</option>
-          <option value="under-1cr">Under ₹1 Cr</option>
-          <option value="1-3cr">₹1–3 Cr</option>
-          <option value="3-7cr">₹3–7 Cr</option>
-          <option value="7cr-plus">₹7 Cr+</option>
-        </select>
-        <p class="field-error">Please select a budget range.</p>
-      </div>
-
-      <button type="submit" class="btn btn--solid btn--block">Request Callback</button>
-      <p class="form-fineprint">By submitting, you agree to be contacted about this project.</p>
-
-      <div class="form-success" role="status">
-        <h3>Thank you — request received.</h3>
-        <p>Our team will call you within 24 hours to walk you through plots, villas and pricing.</p>
-      </div>
-    </form>
-  </div>
-  </div>
-  <div class="hero__form-spacer"></div>
   <svg class="texture-contour texture-contour--hero" aria-hidden="true" focusable="false"><use href="#texture-palm"/></svg>
 </section>
 
@@ -746,8 +682,12 @@ gtag('config', 'AW-XXXXXXXXX');
         <button class="fp-floor-tab" aria-selected="false" data-fp-floor="second">Second Floor</button>
         <button class="fp-floor-tab" aria-selected="false" data-fp-floor="2d">Dimensioned Plan</button>
       </div>
-      <div class="fp-display">
+      <div class="fp-display fp-display--gated">
         <img data-fp-image src="assets/img/floorplans/villa-a-ground.jpg?v=3" alt="Type A villa — ground floor layout render, Greencity Goa">
+        <a href="#hero-form" class="fp-gate" aria-label="Interested in this floor plan? Call now or request a callback to view it.">
+          <span class="fp-gate__title">Interested in this floor plan?</span>
+          <span class="fp-gate__cta">Call Now or Request a Callback</span>
+        </a>
       </div>
       <div class="fp-meta">
         <a class="link-cta" href="#hero-form">Get the full dimensioned PDF ↓</a>
@@ -761,8 +701,12 @@ gtag('config', 'AW-XXXXXXXXX');
         <button class="fp-floor-tab" aria-selected="false" data-fp-floor="first">First Floor</button>
         <button class="fp-floor-tab" aria-selected="false" data-fp-floor="2d">Dimensioned Plan</button>
       </div>
-      <div class="fp-display">
+      <div class="fp-display fp-display--gated">
         <img data-fp-image src="assets/img/floorplans/villa-b-ground.jpg?v=3" alt="Type B villa — ground floor layout render, Greencity Goa">
+        <a href="#hero-form" class="fp-gate" aria-label="Interested in this floor plan? Call now or request a callback to view it.">
+          <span class="fp-gate__title">Interested in this floor plan?</span>
+          <span class="fp-gate__cta">Call Now or Request a Callback</span>
+        </a>
       </div>
       <div class="fp-meta">
         <a class="link-cta" href="#hero-form">Get the full dimensioned PDF ↓</a>
@@ -776,8 +720,12 @@ gtag('config', 'AW-XXXXXXXXX');
         <button class="fp-floor-tab" aria-selected="false" data-fp-floor="first">First Floor</button>
         <button class="fp-floor-tab" aria-selected="false" data-fp-floor="2d">Dimensioned Plan</button>
       </div>
-      <div class="fp-display">
+      <div class="fp-display fp-display--gated">
         <img data-fp-image src="assets/img/floorplans/villa-c-ground.jpg?v=3" alt="Type C villa — ground floor layout render, Greencity Goa">
+        <a href="#hero-form" class="fp-gate" aria-label="Interested in this floor plan? Call now or request a callback to view it.">
+          <span class="fp-gate__title">Interested in this floor plan?</span>
+          <span class="fp-gate__cta">Call Now or Request a Callback</span>
+        </a>
       </div>
       <div class="fp-meta">
         <a class="link-cta" href="#hero-form">Get the full dimensioned PDF ↓</a>
@@ -918,6 +866,85 @@ gtag('config', 'AW-XXXXXXXXX');
           <p>RERA registration is in progress — the registration number will be published here and in the footer once issued.</p>
         </div>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================================
+     GET STARTED — the lead form, moved here from the hero (was competing
+     with the hero photo/branding for attention up top; this is now the
+     page's single dedicated conversion moment, positioned as the natural
+     "I'm convinced, now what" step right after FAQ answers the last
+     objections). Every other CTA on the page (nav, sticky bar, floor-plan
+     PDF links, gated floor-plan renders) already points at #hero-form, so
+     keeping that id here means none of those links needed to change.
+     ========================================================================= -->
+<section class="section--dark on-dark" id="get-started">
+  <svg class="texture-contour texture-contour--left" aria-hidden="true" focusable="false"><use href="#texture-palm"/></svg>
+  <div class="wrap">
+    <div class="section-head center">
+      <p class="eyebrow">Get Started</p>
+      <h2 class="headline on-dark">Ready to see the full project?</h2>
+      <p class="lede">Share your details and our team will call you within 24 hours.</p>
+    </div>
+    <div class="hero__form-wrap">
+      <!--
+        🔶 OPEN DECISION (01-brief.md / 02-content.md): keep this 5-field form,
+        or cut to name + mobile only for higher lead volume. Built as 5 fields
+        to match the wireframe; swap easily since each field is its own .field block.
+      -->
+      <form class="hero__form" id="hero-form" novalidate>
+        <div class="field-row">
+          <div class="field" data-field="name">
+            <label for="f-name">Full Name</label>
+            <input type="text" id="f-name" name="name" autocomplete="name" placeholder="Full name">
+            <p class="field-error">Please enter your name.</p>
+          </div>
+
+          <div class="field" data-field="mobile">
+            <label for="f-mobile">Mobile Number</label>
+            <input type="tel" id="f-mobile" name="mobile" autocomplete="tel" inputmode="numeric" placeholder="10-digit no.">
+            <p class="field-error">Please enter a valid 10-digit mobile number.</p>
+          </div>
+        </div>
+
+        <div class="field" data-field="email">
+          <label for="f-email">Email Address</label>
+          <input type="email" id="f-email" name="email" autocomplete="email" placeholder="you@example.com">
+          <p class="field-error">Please enter a valid email address.</p>
+        </div>
+
+        <div class="field" data-field="interest">
+          <label for="f-interest">Interest</label>
+          <select id="f-interest" name="interest">
+            <option value="" selected disabled>I'm interested in…</option>
+            <option value="plot">Plot</option>
+            <option value="villa">Villa</option>
+            <option value="not-sure">Not sure yet</option>
+          </select>
+          <p class="field-error">Please select an option.</p>
+        </div>
+
+        <div class="field" data-field="budget">
+          <label for="f-budget">Budget Range <span class="label-hint">(so we can tell you if it fits)</span></label>
+          <select id="f-budget" name="budget">
+            <option value="" selected disabled>Budget range</option>
+            <option value="under-1cr">Under ₹1 Cr</option>
+            <option value="1-3cr">₹1–3 Cr</option>
+            <option value="3-7cr">₹3–7 Cr</option>
+            <option value="7cr-plus">₹7 Cr+</option>
+          </select>
+          <p class="field-error">Please select a budget range.</p>
+        </div>
+
+        <button type="submit" class="btn btn--solid btn--block">Request Callback</button>
+        <p class="form-fineprint">By submitting, you agree to be contacted about this project.</p>
+
+        <div class="form-success" role="status">
+          <h3>Thank you — request received.</h3>
+          <p>Our team will call you within 24 hours to walk you through plots, villas and pricing.</p>
+        </div>
+      </form>
     </div>
   </div>
 </section>

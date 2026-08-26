@@ -448,20 +448,28 @@ section{ padding: var(--section-pad-y) 0; position: relative; }
   padding-bottom: 0;
   overflow: hidden;
 }
-/* Mobile/tablet: content stacks — headline block, then the form card below
-   it. Desktop: a real two-column hero (headline left, form card right)
-   instead of everything stacked full-width in one narrow centered column,
-   which is what was reading as broken/unbalanced on a laptop-width window. */
-.hero__layout{ padding-bottom: var(--space-8); }
-@media (min-width: 1000px){
-  .hero__layout{
-    display: grid;
-    grid-template-columns: 1.15fr 440px;
-    gap: 4rem;
-    align-items: center;
-    padding-top: 2rem;
-    padding-bottom: 5rem;
-  }
+/* The lead form used to live here in a two-column grid (headline left,
+   form right) — it's moved out to its own section after FAQ now, so the
+   hero is just the brand moment: logo, headline, subhead, one CTA,
+   centered as a single column at every width. Simpler layout now that
+   there's no second column to balance against. */
+.hero__layout{
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  max-width: 640px;
+  margin: 0 auto;
+  padding-top: clamp(2.5rem, 8vw, 4.5rem);
+  padding-bottom: clamp(4rem, 12vw, 7rem);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.hero__brand-mark{
+  height: clamp(64px, 16vw, 110px);
+  width: auto;
+  margin-bottom: clamp(1.6rem, 5vw, 2.6rem);
+  filter: drop-shadow(0 6px 18px rgba(0,0,0,0.35));
 }
 .hero__bg{
   position: absolute;
@@ -484,8 +492,6 @@ section{ padding: var(--section-pad-y) 0; position: relative; }
      band) but the photo itself now reads through more. */
   background: linear-gradient(180deg, rgba(15,28,20,0.55) 0%, rgba(15,28,20,0.62) 55%, rgba(15,28,20,0.8) 100%);
 }
-.hero__content{ position: relative; z-index: 1; padding-bottom: var(--space-8); }
-@media (min-width: 1000px){ .hero__content{ padding-bottom: 0; } }
 .hero h1{
   /* No longer sharing --text-display-xl with the Growth section title —
      sized down on its own (was locking to that token's 2.3rem floor on
@@ -505,11 +511,22 @@ section{ padding: var(--section-pad-y) 0; position: relative; }
      photo. Roman (upright) keeps the same serif but drops the script feel. */
   font-family: var(--font-display);
 }
+.hero__cta{
+  margin-top: clamp(2rem, 6vw, 2.8rem);
+  background: var(--white);
+  color: var(--forest);
+  border-color: var(--white);
+}
+.hero__cta:hover{ background: var(--cream); border-color: var(--cream); }
 
-.hero__form-wrap{ position: relative; z-index: 1; }
+.hero__form-wrap{ position: relative; z-index: 1; max-width: 480px; margin: 0 auto; }
 .hero__form{
-  /* Glassmorphism: frosted translucent panel over the hero photo rather
-     than a solid white card — background shows through, softened by blur. */
+  /* Glassmorphism: frosted translucent panel — was over the hero photo,
+     now over this section's own solid dark background (the form moved
+     out of the hero entirely). Still reads as a soft frosted card even
+     without a photo behind it, and it means every other color override
+     below (all tuned for light text on dark) still applies correctly
+     without a rewrite. */
   background: rgba(255,255,255,0.14);
   -webkit-backdrop-filter: blur(22px) saturate(160%);
   backdrop-filter: blur(22px) saturate(160%);
@@ -518,36 +535,9 @@ section{ padding: var(--section-pad-y) 0; position: relative; }
   border-radius: var(--radius-card);
   padding: 1.75rem 1.4rem 2rem;
   box-shadow: 0 30px 60px rgba(15,28,20,0.45);
-  margin: 0 auto;
-  max-width: 480px;
-  transform: translateY(2.5rem);
 }
 @media (min-width: 640px){
   .hero__form{ padding: 2.25rem 2rem 2.4rem; }
-}
-@media (min-width: 1000px){
-  /* The translateY "float past the fold" trick is a mobile-only effect —
-     at desktop the form sits in its own grid column beside the headline,
-     so it needs to just sit centered in that column instead. */
-  .hero__form{ max-width: 100%; transform: none; }
-  .hero__form-spacer{ display: none; }
-}
-.hero__form h2{
-  /* Was --text-xl — sized down so this reads as a card label under the
-     real headline above it, not a second, competing headline. The form
-     was one of several same-weight blocks stacked with no hierarchy
-     between them; this is one step in giving it less visual authority
-     than the H1. */
-  font-size: var(--text-md);
-  font-weight: var(--weight-semibold);
-  font-family: var(--font-body);
-  color: var(--white);
-}
-.hero__form .form-note{
-  color: rgba(248,245,236,0.78);
-  font-size: var(--text-base);
-  margin-top: 0.35rem;
-  margin-bottom: 1.4rem;
 }
 .hero__form .field label{
   color: rgba(248,245,236,0.75);
@@ -565,8 +555,6 @@ section{ padding: var(--section-pad-y) 0; position: relative; }
 .hero__form .form-fineprint{ color: rgba(248,245,236,0.65); }
 .hero__form .form-success h3{ color: var(--white); }
 .hero__form .form-success p{ color: rgba(248,245,236,0.8); }
-.hero__form-spacer{ height: var(--space-8); }
-@media (min-width: 640px){ .hero__form-spacer{ height: 3.6rem; } }
 
 /* -------------------------------------------------------------------------
    9. FORM FIELDS
@@ -1210,6 +1198,45 @@ section > .wrap{ position: relative; z-index: 1; }
   margin-top: var(--space-2);
 }
 .fp-display img{ width: 100%; display: block; }
+
+/* Gated preview — the render is blurred and a click anywhere on it jumps
+   to the lead form, same pattern as the "get the dimensioned PDF" link
+   below it. Image is scaled up slightly so the blur doesn't reveal a
+   sharp, un-blurred sliver at the edges. */
+.fp-display--gated img{ filter: blur(15px); transform: scale(1.08); }
+.fp-gate{
+  position: absolute; inset: 0; z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  text-align: center;
+  padding: 2rem 1.5rem;
+  background: rgba(15,28,20,0.4);
+  color: var(--white);
+}
+.fp-gate__title{
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: var(--weight-semibold);
+  max-width: 22ch;
+}
+.fp-gate__cta{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--white);
+  color: var(--forest);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-bold);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 0.85em 1.6em;
+  border-radius: var(--radius-pill);
+  transition: transform .2s var(--ease);
+}
+.fp-gate:hover .fp-gate__cta{ transform: scale(1.04); }
 .fp-meta{
   margin-top: 1.2rem;
   display: flex;
