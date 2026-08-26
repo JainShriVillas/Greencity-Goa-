@@ -12,7 +12,7 @@
 <meta property="og:type" content="website">
 <meta property="og:title" content="Greencity Goa | Jain Shri Villas — Satarda, North of Goa">
 <meta property="og:description" content="North of Goa is about to change forever. Own it before that happens — 300–500 sq. yd. plots and 2–5 BHK luxury villas, 10 km from Mopa International Airport.">
-<meta property="og:image" content="assets/img/renders/aerial-2.jpg">
+<meta property="og:image" content="assets/img/renders/aerial-3.jpg">
 <!-- TODO: og:image and og:url need absolute paths once this is deployed to a real domain. -->
 <meta name="twitter:card" content="summary_large_image">
 
@@ -45,7 +45,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700&family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,500&display=swap" rel="stylesheet">
 
-<link rel="stylesheet" href="assets/css/styles.css?v=37">
+<link rel="stylesheet" href="assets/css/styles.css?v=40">
 
 <!-- =========================================================================
      TRACKING — NOT YET INSTALLED. See Instruction Documents/01-brief.md, "Tracking".
@@ -335,7 +335,7 @@ gtag('config', 'AW-XXXXXXXXX');
      ========================================================================= -->
 <section class="hero">
   <div class="hero__bg" aria-hidden="true">
-    <img src="assets/img/renders/aerial-2.jpg?v=6" alt="" loading="eager">
+    <img src="assets/img/renders/aerial-3.jpg?v=1" alt="" loading="eager">
   </div>
   <div class="wrap hero__layout">
     <img src="assets/img/logo/greencity-goa-horizontal.svg?v=1" alt="Greencity Goa" class="hero__brand-mark">
@@ -388,7 +388,7 @@ gtag('config', 'AW-XXXXXXXXX');
           <img src="assets/img/renders/aerial-1.jpg?v=2" alt="Greencity Goa masterplan — aerial render of villas, landscaped plots and clubhouse in Satarda, North of Goa" loading="lazy">
         </figure>
         <figure class="mask-arch">
-          <img src="assets/img/interiors/villa-a-kitchen.jpg" alt="Interior render of a finished Type A villa kitchen, Greencity Goa" loading="lazy">
+          <img src="assets/img/renders/villa-terrace-detail.jpg?v=1" alt="Villa terrace and balcony detail, Greencity Goa" loading="lazy">
         </figure>
       </div>
     </div>
@@ -595,69 +595,54 @@ gtag('config', 'AW-XXXXXXXXX');
       <h2 class="headline">Everything a resort has. <strong>None of the check-out.</strong></h2>
     </div>
   </div>
-  <div class="marquee" data-marquee>
+  <!-- All 6 cards below use photography the client supplied for these
+       amenities — confirmed stock/AI-generated reference images, not real
+       project photography. Client asked to drop the "Indicative Image"
+       label for now; card__tag CSS is left in place in case that's
+       revisited later. -->
+  <div class="marquee marquee--amenities" data-marquee>
     <div class="marquee__track">
-      <div class="card card--icon">
-        <span class="ghost-num ghost-num--card" aria-hidden="true">01</span>
-        <div class="icon"><svg class="icon"><use href="#i-yoga"/></svg></div>
-        <h3>Yogshala — Beach Yoga</h3>
-      </div>
-      <div class="card card--icon">
-        <span class="ghost-num ghost-num--card" aria-hidden="true">02</span>
-        <div class="icon"><svg class="icon"><use href="#i-pool"/></svg></div>
-        <h3>Swimming Pool</h3>
-      </div>
-      <div class="card card--icon">
-        <span class="ghost-num ghost-num--card" aria-hidden="true">03</span>
-        <div class="icon"><svg class="icon"><use href="#i-kids"/></svg></div>
-        <h3>Kids' Play Zone</h3>
-      </div>
-      <div class="card card--icon">
-        <span class="ghost-num ghost-num--card" aria-hidden="true">04</span>
-        <div class="icon"><svg class="icon"><use href="#i-fitness"/></svg></div>
-        <h3>Fitness Centre</h3>
-      </div>
-      <div class="card card--icon">
-        <span class="ghost-num ghost-num--card" aria-hidden="true">05</span>
-        <div class="icon"><svg class="icon"><use href="#i-scuba"/></svg></div>
-        <h3>Water Sports &amp; Scuba</h3>
-      </div>
-      <div class="card card--icon">
-        <span class="ghost-num ghost-num--card" aria-hidden="true">06</span>
-        <div class="icon"><svg class="icon"><use href="#i-banquet"/></svg></div>
-        <h3>Grand Banquet Hall</h3>
-      </div>
+      <figure class="card card--photo">
+        <img src="assets/img/amenities/yogshala.jpg?v=1" alt="Yogshala beach yoga deck" loading="lazy">
+        <figcaption class="card__label">Yogshala</figcaption>
+      </figure>
+      <figure class="card card--photo">
+        <img src="assets/img/amenities/swimming-pool.jpg?v=1" alt="Swimming pool" loading="lazy">
+        <figcaption class="card__label">Swimming Pool</figcaption>
+      </figure>
+      <figure class="card card--photo">
+        <img src="assets/img/amenities/kids-play.jpg?v=1" alt="Kids' play zone" loading="lazy">
+        <figcaption class="card__label">Kids' Play Zone</figcaption>
+      </figure>
+      <figure class="card card--photo">
+        <img src="assets/img/amenities/fitness-centre.jpg?v=1" alt="Fitness centre" loading="lazy">
+        <figcaption class="card__label">Fitness Centre</figcaption>
+      </figure>
+      <figure class="card card--photo">
+        <img src="assets/img/amenities/banquet-hall.jpg?v=1" alt="Grand banquet hall" loading="lazy">
+        <figcaption class="card__label">Grand Banquet Hall</figcaption>
+      </figure>
       <!-- duplicated set so the CSS loop has no visible seam -->
-      <div class="card card--icon" aria-hidden="true">
-        <span class="ghost-num ghost-num--card" aria-hidden="true">01</span>
-        <div class="icon"><svg class="icon"><use href="#i-yoga"/></svg></div>
-        <h3>Yogshala — Beach Yoga</h3>
-      </div>
-      <div class="card card--icon" aria-hidden="true">
-        <span class="ghost-num ghost-num--card" aria-hidden="true">02</span>
-        <div class="icon"><svg class="icon"><use href="#i-pool"/></svg></div>
-        <h3>Swimming Pool</h3>
-      </div>
-      <div class="card card--icon" aria-hidden="true">
-        <span class="ghost-num ghost-num--card" aria-hidden="true">03</span>
-        <div class="icon"><svg class="icon"><use href="#i-kids"/></svg></div>
-        <h3>Kids' Play Zone</h3>
-      </div>
-      <div class="card card--icon" aria-hidden="true">
-        <span class="ghost-num ghost-num--card" aria-hidden="true">04</span>
-        <div class="icon"><svg class="icon"><use href="#i-fitness"/></svg></div>
-        <h3>Fitness Centre</h3>
-      </div>
-      <div class="card card--icon" aria-hidden="true">
-        <span class="ghost-num ghost-num--card" aria-hidden="true">05</span>
-        <div class="icon"><svg class="icon"><use href="#i-scuba"/></svg></div>
-        <h3>Water Sports &amp; Scuba</h3>
-      </div>
-      <div class="card card--icon" aria-hidden="true">
-        <span class="ghost-num ghost-num--card" aria-hidden="true">06</span>
-        <div class="icon"><svg class="icon"><use href="#i-banquet"/></svg></div>
-        <h3>Grand Banquet Hall</h3>
-      </div>
+      <figure class="card card--photo" aria-hidden="true">
+        <img src="assets/img/amenities/yogshala.jpg?v=1" alt="" loading="lazy">
+        <figcaption class="card__label">Yogshala</figcaption>
+      </figure>
+      <figure class="card card--photo" aria-hidden="true">
+        <img src="assets/img/amenities/swimming-pool.jpg?v=1" alt="" loading="lazy">
+        <figcaption class="card__label">Swimming Pool</figcaption>
+      </figure>
+      <figure class="card card--photo" aria-hidden="true">
+        <img src="assets/img/amenities/kids-play.jpg?v=1" alt="" loading="lazy">
+        <figcaption class="card__label">Kids' Play Zone</figcaption>
+      </figure>
+      <figure class="card card--photo" aria-hidden="true">
+        <img src="assets/img/amenities/fitness-centre.jpg?v=1" alt="" loading="lazy">
+        <figcaption class="card__label">Fitness Centre</figcaption>
+      </figure>
+      <figure class="card card--photo" aria-hidden="true">
+        <img src="assets/img/amenities/banquet-hall.jpg?v=1" alt="" loading="lazy">
+        <figcaption class="card__label">Grand Banquet Hall</figcaption>
+      </figure>
     </div>
   </div>
 </section>
@@ -740,70 +725,34 @@ gtag('config', 'AW-XXXXXXXXX');
 </section>
 
 <!-- =========================================================================
-     INTERIORS (formerly "Hospitality") — the copy previously promised
-     restaurants/lounge/cloud-kitchen imagery that this section's photos
-     (villa kitchens/bedrooms) can't actually back up — no real hospitality/
-     service photography exists in /Media. Retitled and rewritten so the
-     headline matches what's genuinely shown (finished interiors); the
-     Palette Hospitality rental-management fact is kept as one supporting
-     line rather than the section's whole premise. -->
+     HOSPITALITY — retitled back from "Interiors" now that real service
+     photography exists to back up the claim (client-supplied stock/AI
+     reference images, same caveat as the Amenities photos). Management
+     partner is described generically, not named, per client request. -->
 <section class="section--cream" id="hospitality">
   <div class="wrap">
     <div class="section-head">
-      <p class="eyebrow">Interiors</p>
-      <h2 class="headline">Finished to move in, <em>not just built.</em></h2>
-      <p class="lede">Every villa is handed over fully finished — kitchen fittings, wardrobes, bedroom detailing included. When you're not in residence, Palette Hospitality can manage it as a short-term rental.</p>
+      <p class="eyebrow">Hospitality</p>
+      <h2 class="headline">Finished to move in, <em>fully managed when you're not.</em></h2>
+      <p class="lede">Every villa is handed over fully finished — kitchen fittings, wardrobes, bedroom detailing included. When you're not in residence, a dedicated hospitality team can manage it end-to-end: housekeeping, guest check-in and turnover, and rental management — so it's never sitting empty or unattended.</p>
     </div>
   </div>
-  <div class="marquee" data-marquee>
-    <div class="marquee__track">
-      <figure class="card card--photo">
-        <img src="assets/img/interiors/villa-a-kitchen.jpg" alt="Type A villa kitchen interior render" loading="lazy">
-        <figcaption class="card__label">Type A — Kitchen</figcaption>
+  <!-- Static collage grid, not a marquee and not 3 separate cards — client
+       does not want any villa render imagery used for interiors, wants
+       these 3 specifically as one fixed composed block (no captions, no
+       animation), matching their reference: two stacked frames on the
+       left, one tall frame on the right spanning both rows. Same 2-col
+       composition holds at phone width too, just scaled down. -->
+  <div class="wrap">
+    <div class="hospitality-grid">
+      <figure class="hospitality-grid__frame hospitality-grid__frame--top">
+        <img src="assets/img/hospitality/turndown-service.jpg?v=1" alt="Villa turndown service" loading="lazy">
       </figure>
-      <figure class="card card--photo">
-        <img src="assets/img/interiors/villa-a-bedroom.jpg" alt="Type A villa bedroom interior render" loading="lazy">
-        <figcaption class="card__label">Type A — Bedroom</figcaption>
+      <figure class="hospitality-grid__frame hospitality-grid__frame--bottom">
+        <img src="assets/img/hospitality/housekeeping.jpg?v=1" alt="Villa housekeeping" loading="lazy">
       </figure>
-      <figure class="card card--photo">
-        <img src="assets/img/interiors/villa-b-kitchen.jpg" alt="Type B villa kitchen interior render" loading="lazy">
-        <figcaption class="card__label">Type B — Kitchen</figcaption>
-      </figure>
-      <figure class="card card--photo">
-        <img src="assets/img/interiors/villa-b-bedroom.jpg" alt="Type B villa bedroom interior render" loading="lazy">
-        <figcaption class="card__label">Type B — Bedroom</figcaption>
-      </figure>
-      <figure class="card card--photo">
-        <img src="assets/img/interiors/villa-c-kitchen.jpg" alt="Type C villa kitchen interior render" loading="lazy">
-        <figcaption class="card__label">Type C — Kitchen</figcaption>
-      </figure>
-      <figure class="card card--photo">
-        <img src="assets/img/interiors/villa-c-bedroom.jpg" alt="Type C villa bedroom interior render" loading="lazy">
-        <figcaption class="card__label">Type C — Bedroom</figcaption>
-      </figure>
-      <figure class="card card--photo" aria-hidden="true">
-        <img src="assets/img/interiors/villa-a-kitchen.jpg" alt="" loading="lazy">
-        <figcaption class="card__label">Type A — Kitchen</figcaption>
-      </figure>
-      <figure class="card card--photo" aria-hidden="true">
-        <img src="assets/img/interiors/villa-a-bedroom.jpg" alt="" loading="lazy">
-        <figcaption class="card__label">Type A — Bedroom</figcaption>
-      </figure>
-      <figure class="card card--photo" aria-hidden="true">
-        <img src="assets/img/interiors/villa-b-kitchen.jpg" alt="" loading="lazy">
-        <figcaption class="card__label">Type B — Kitchen</figcaption>
-      </figure>
-      <figure class="card card--photo" aria-hidden="true">
-        <img src="assets/img/interiors/villa-b-bedroom.jpg" alt="" loading="lazy">
-        <figcaption class="card__label">Type B — Bedroom</figcaption>
-      </figure>
-      <figure class="card card--photo" aria-hidden="true">
-        <img src="assets/img/interiors/villa-c-kitchen.jpg" alt="" loading="lazy">
-        <figcaption class="card__label">Type C — Kitchen</figcaption>
-      </figure>
-      <figure class="card card--photo" aria-hidden="true">
-        <img src="assets/img/interiors/villa-c-bedroom.jpg" alt="" loading="lazy">
-        <figcaption class="card__label">Type C — Bedroom</figcaption>
+      <figure class="hospitality-grid__frame hospitality-grid__frame--large">
+        <img src="assets/img/hospitality/guest-welcome.jpg?v=1" alt="Guest arrival and welcome" loading="lazy">
       </figure>
     </div>
   </div>
@@ -857,7 +806,7 @@ gtag('config', 'AW-XXXXXXXXX');
           <span class="plus"></span>
         </button>
         <div class="faq-a">
-          <p>Palette Hospitality can manage your villa as a short-term rental when you're away, handling guest turnover, maintenance and housekeeping.</p>
+          <p>A dedicated hospitality team can manage your villa as a short-term rental when you're away, handling guest turnover, maintenance and housekeeping.</p>
         </div>
       </div>
 

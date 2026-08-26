@@ -4,8 +4,12 @@
     {
       "name": "static-preview",
       "runtimeExecutable": "python3",
-      "runtimeArgs": ["-m", "http.server", "8843"],
-      "port": 8843
+      "runtimeArgs": [
+        "-c",
+        "import os,http.server,socketserver; port=int(os.environ.get('PORT',8843)); socketserver.TCPServer.allow_reuse_address=True; Handler=http.server.SimpleHTTPRequestHandler; httpd=socketserver.TCPServer(('',port),Handler); print('Serving HTTP on port', port); httpd.serve_forever()"
+      ],
+      "port": 8843,
+      "autoPort": true
     }
   ]
 }
