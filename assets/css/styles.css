@@ -490,8 +490,11 @@ section{ padding: var(--section-pad-y) 0; position: relative; }
 .hero__brand-mark{
   /* Horizontal lockup (~4.1:1) — width-driven sizing with height:auto,
      not the height-driven clamp the taller stacked mark used, or it'd
-     balloon far too wide on bigger screens. */
-  width: clamp(260px, 72vw, 560px);
+     balloon far too wide on bigger screens. Bumped up specifically for
+     phone widths (higher vw + floor) — the 300px floor stays comfortably
+     inside the .wrap padding down to ~340px viewports, covering every
+     phone in real-world use. */
+  width: clamp(300px, 84vw, 560px);
   height: auto;
   margin-bottom: clamp(1.1rem, 3.5vw, 1.6rem);
   filter: drop-shadow(0 6px 18px rgba(0,0,0,0.35));
