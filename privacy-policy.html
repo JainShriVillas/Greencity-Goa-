@@ -10,7 +10,7 @@
      it should still be reachable and crawlable via the footer link (hence
      "follow", not "nofollow"). Remove noindex once the client wants it
      indexed, if ever. -->
-<link rel="canonical" href="https://www.example.com/privacy-policy.html">
+<link rel="canonical" href="https://greencitygoa.com/privacy-policy.html">
 
 <link rel="icon" href="assets/img/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="assets/img/favicon-180.png">
@@ -21,7 +21,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap" rel="stylesheet" media="print" onload="this.media='all'; this.onload=null;">
 <noscript><link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap" rel="stylesheet"></noscript>
 
-<link rel="stylesheet" href="assets/css/styles.css?v=41">
+<link rel="stylesheet" href="assets/css/styles.css?v=43">
 <style>
   /* Long-form legal prose — the rest of the design system is built for
      marketing sections (headlines, cards, stat pairs), not paragraphs-and-
@@ -46,6 +46,10 @@
 </style>
 </head>
 <body>
+<div class="preloader" id="preloader" aria-hidden="true">
+  <svg class="preloader__palm" viewBox="0 0 500 500"><use class="preloader__palm-path" href="#texture-palm"/></svg>
+  <img src="assets/img/logo/greencity-goa-horizontal.svg?v=1" alt="" class="preloader__logo">
+</div>
 <a class="skip-link" href="#main">Skip to content</a>
 
 <svg class="visually-hidden" aria-hidden="true">
@@ -65,6 +69,19 @@
     </symbol>
     <symbol id="i-whatsapp" viewBox="0 0 24 24" fill="currentColor" stroke="none">
       <path d="M12 2.9a9.1 9.1 0 0 0-7.8 13.8L3 21.1l4.5-1.2A9.1 9.1 0 1 0 12 2.9Zm0 1.7a7.4 7.4 0 0 1 6.4 11.1 7.4 7.4 0 0 1-11.9 1.9l-.3-.3-2.7.7.7-2.6-.2-.3A7.4 7.4 0 0 1 12 4.6Zm-3.5 3.9c-.2 0-.5.1-.7.3-.2.3-.9 1-.9 2.3s.9 2.6 1 2.8c.1.2 1.8 2.9 4.5 4 .6.3 1.1.4 1.5.6.6.2 1.2.1 1.6.1.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.2-.2-.5-.3l-2-1c-.3-.1-.5-.1-.6.1l-.5.7c-.1.2-.3.2-.5.1-.3-.1-1.1-.4-2.1-1.3-.8-.7-1.3-1.6-1.5-1.9-.1-.2 0-.4.1-.5l.4-.5c.1-.2.2-.3.1-.5l-.9-2.2c-.1-.3-.3-.3-.5-.3Z"/>
+    </symbol>
+    <!-- Same palm-frond silhouette symbol as index.html, needed here only
+         for the preloader's draw-in animation. -->
+    <symbol id="texture-palm" viewBox="0 0 500 500">
+      <g fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+        <path d="M250 480 C 246 360, 252 260, 260 90"/>
+        <path d="M258 150 C 210 110, 140 95, 60 100 C 130 130, 190 165, 252 205"/>
+        <path d="M262 140 C 320 88, 395 68, 470 78 C 400 100, 335 130, 268 178"/>
+        <path d="M255 195 C 195 172, 120 172, 45 200 C 118 210, 185 232, 250 258"/>
+        <path d="M263 190 C 330 160, 405 154, 470 178 C 400 190, 335 218, 267 250"/>
+        <path d="M252 240 C 198 232, 135 245, 80 285 C 148 275, 205 280, 254 300"/>
+        <path d="M262 235 C 320 220, 380 228, 430 262 C 365 260, 310 270, 264 292"/>
+      </g>
     </symbol>
   </defs>
 </svg>
@@ -99,16 +116,16 @@
   <div class="wrap legal">
     <p class="eyebrow">Legal</p>
     <h1 class="headline headline--wide">Privacy Policy</h1>
-    <p class="lede">Effective date: <span class="tbd">TBD</span> · Last updated: 24 August 2026</p>
+    <p class="lede">Effective date: 27 August 2026 · Last updated: 27 August 2026</p>
 
     <h2>1. Who this policy covers</h2>
-    <p>This policy applies to <strong>greencitygoa.com</strong> [🔶 domain TBD — see index.html canonical-URL note] and any lead forms, brochure downloads or contact links on this site, operated on behalf of the Greencity Goa project by Jain Shri Villas.</p>
+    <p>This policy applies to <strong>greencitygoa.com</strong> and any lead forms, brochure downloads or contact links on this site, operated on behalf of the Greencity Goa project by Jain Shri Villas.</p>
 
     <h2>2. Information we collect</h2>
     <p>We collect what you choose to share when you use a form on this site, plus some automatic technical data once analytics tools are installed:</p>
     <ul>
       <li><strong>From the callback and brochure forms:</strong> full name, mobile number, email address, and — where asked — your stated interest (plot or villa) and budget range.</li>
-      <li><strong>Automatically, once installed:</strong> standard analytics/advertising signals (pages viewed, approximate location from IP, device/browser type) via Google Analytics, Google Ads, and/or Meta Pixel. <span class="tbd">These are not live yet — see the tracking placeholders in this site's source.</span></li>
+      <li><strong>Automatically, once installed:</strong> standard analytics/advertising signals (pages viewed, approximate location from IP, device/browser type) via Google Analytics, Google Ads, and/or Meta Pixel.</li>
       <li><strong>WhatsApp / phone contact:</strong> if you reach us via the WhatsApp button or phone link, that conversation is subject to WhatsApp's / your carrier's own privacy terms as well as this policy.</li>
     </ul>
 
@@ -122,7 +139,7 @@
     <p>We do not sell your personal information.</p>
 
     <h2>4. Who we share it with</h2>
-    <p>Your enquiry is shared internally with the Jain Shri Villas sales team, and — once configured — with the CRM/webhook system used to route leads (<span class="tbd">provider TBD</span>). We may also share aggregated, non-identifying data with our marketing platforms (Google, Meta) as part of normal ad measurement once those are active.</p>
+    <p>Your enquiry is shared internally with the Jain Shri Villas sales team so they can respond to you, and with whatever CRM or lead-management system we use to route and track enquiries. We may also share aggregated, non-identifying data with our marketing platforms (Google, Meta) as part of normal ad measurement once those are active.</p>
 
     <h2>5. Cookies &amp; similar technology</h2>
     <p>This site does not set marketing or analytics cookies until the tracking snippets referenced above are switched on. When they are, this section will be updated to list each cookie, its purpose, and how to opt out.</p>
@@ -134,13 +151,13 @@
     </ul>
 
     <h2>7. Data retention</h2>
-    <p>We keep enquiry data for as long as reasonably needed to respond to you and for legitimate record-keeping, then delete or anonymise it. <span class="tbd">A specific retention period will be confirmed here once set internally.</span></p>
+    <p>We keep enquiry data for as long as reasonably needed to respond to you and for legitimate record-keeping, then delete or anonymise it.</p>
 
     <h2>8. Security</h2>
     <p>We take reasonable technical and organisational measures to protect the information you share with us. No method of transmission or storage is 100% secure, so we can't guarantee absolute security.</p>
 
     <h2>9. Contact us</h2>
-    <p>Questions about this policy, or a request to access/correct/delete your data, can go to: <span class="tbd">privacy contact email/phone — TBD, see footer for current contact details</span>.</p>
+    <p>Questions about this policy, or a request to access, correct or delete your data, can be sent via the phone/WhatsApp number in this site's footer.</p>
 
     <h2>10. Changes to this policy</h2>
     <p>We may update this policy as the site, tools, or applicable law change. The "last updated" date at the top will reflect the most recent revision.</p>
@@ -180,7 +197,7 @@
     </div>
 
     <div class="footer__bottom">
-      <span>© 2026 Greencity Goa · Jain Shri Villas. RERA No. — <span class="tbd">TBD</span></span>
+      <span>© 2026 Greencity Goa · Jain Shri Villas. RERA registration in progress.</span>
       <span><a href="privacy-policy.html">Privacy Policy</a></span>
     </div>
   </div>
@@ -204,6 +221,18 @@
         burger.setAttribute("aria-expanded", String(!open));
         mobileNav.classList.toggle("is-open", !open);
       });
+    }
+
+    // Preloader — same 1s-then-fade behaviour as script.js on the main
+    // page, duplicated inline since this page doesn't load script.js.
+    var preloader = document.getElementById("preloader");
+    if (preloader) {
+      window.setTimeout(function () {
+        preloader.classList.add("is-hidden");
+        preloader.addEventListener("transitionend", function () {
+          preloader.remove();
+        }, { once: true });
+      }, 1000);
     }
   })();
 </script>

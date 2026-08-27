@@ -1567,3 +1567,57 @@ section > .wrap{ position: relative; z-index: 1; }
   background: var(--forest); color: var(--cream); padding: 0.8rem 1.2rem;
 }
 .skip-link:focus{ left: 1rem; top: 1rem; }
+
+/* -------------------------------------------------------------------------
+   PRELOADER — brief branded loading screen. Shown for exactly 1s (script.js
+   setTimeout), then fades out and removes itself. z-index above everything
+   else on the page, including the sticky nav (60) and sticky-bar (65).
+   ------------------------------------------------------------------------- */
+.preloader{
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.1rem;
+  background: var(--forest);
+  transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+.preloader.is-hidden{
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+/* Small silhouette draws itself in first (stroke-dasharray/dashoffset —
+   the standard "line drawing" SVG technique), then the logo fades in
+   once the palm has mostly drawn. Sequenced entirely within the 1s
+   window the preloader is on screen for. */
+.preloader__palm{
+  width: 48px;
+  height: 48px;
+  color: var(--gold-on-dark, var(--gold));
+}
+.preloader__palm-path{
+  stroke-dasharray: 900;
+  stroke-dashoffset: 900;
+  animation: preloader-draw 0.7s ease forwards;
+}
+.preloader__logo{
+  width: min(220px, 55vw);
+  height: auto;
+  opacity: 0;
+  animation: preloader-fade-in 0.5s ease 0.4s forwards;
+}
+@keyframes preloader-draw{
+  to{ stroke-dashoffset: 0; }
+}
+@keyframes preloader-fade-in{
+  from{ opacity: 0; transform: scale(0.94); }
+  to{ opacity: 1; transform: scale(1); }
+}
+@media (prefers-reduced-motion: reduce){
+  .preloader__palm-path{ animation: none; stroke-dashoffset: 0; }
+  .preloader__logo{ animation: none; opacity: 1; }
+}

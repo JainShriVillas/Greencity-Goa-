@@ -8,6 +8,22 @@
   "use strict";
 
   /* -----------------------------------------------------------------------
+     PRELOADER
+     Shown for exactly 1s regardless of actual load state (this is a fast
+     static site — this is a brand touch, not a real loading indicator),
+     then fades out and removes itself from the DOM.
+     ------------------------------------------------------------------------- */
+  var preloader = document.getElementById("preloader");
+  if (preloader) {
+    window.setTimeout(function () {
+      preloader.classList.add("is-hidden");
+      preloader.addEventListener("transitionend", function () {
+        preloader.remove();
+      }, { once: true });
+    }, 1000);
+  }
+
+  /* -----------------------------------------------------------------------
      TRACKING STUB
      TODO: once 01-brief.md's GA4 / GTM / Meta Pixel / Google Ads IDs exist,
      replace the console.info calls below with the real dataLayer.push /

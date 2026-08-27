@@ -5,15 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Greencity Goa | Plots &amp; Villas in Satarda, North of Goa — Jain Shri Villas</title>
 <meta name="description" content="300–500 sq. yd. residential plots and 2–5 BHK luxury villas in Satarda, North of Goa — 10 km from Mopa International Airport, minutes from Arambol &amp; Querim beaches. Request a callback.">
-<link rel="canonical" href="https://www.example.com/">
-<!-- TODO: set the real canonical URL once the project domain is confirmed (see 01-brief.md footer note re: jainshrivillas.com vs a dedicated Greencity Goa domain). -->
+<link rel="canonical" href="https://greencitygoa.com/">
 
 <!-- Open Graph / social preview -->
 <meta property="og:type" content="website">
+<meta property="og:url" content="https://greencitygoa.com/">
 <meta property="og:title" content="Greencity Goa | Jain Shri Villas — Satarda, North of Goa">
 <meta property="og:description" content="North of Goa is about to change forever. Own it before that happens — 300–500 sq. yd. plots and 2–5 BHK luxury villas, 10 km from Mopa International Airport.">
-<meta property="og:image" content="assets/img/renders/aerial-3.jpg">
-<!-- TODO: og:image and og:url need absolute paths once this is deployed to a real domain. -->
+<meta property="og:image" content="https://greencitygoa.com/assets/img/renders/aerial-3.jpg">
 <meta name="twitter:card" content="summary_large_image">
 
 <!-- Favicons — cropped directly from the palm+sun mark inside
@@ -53,7 +52,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap" rel="stylesheet" media="print" onload="this.media='all'; this.onload=null;">
 <noscript><link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap" rel="stylesheet"></noscript>
 
-<link rel="stylesheet" href="assets/css/styles.css?v=41">
+<link rel="stylesheet" href="assets/css/styles.css?v=43">
 
 <!-- =========================================================================
      TRACKING — NOT YET INSTALLED. See Instruction Documents/01-brief.md, "Tracking".
@@ -113,6 +112,17 @@ gtag('config', 'AW-XXXXXXXXX');
 </script>
 </head>
 <body>
+<!-- Brief branded loading screen — shown for exactly 1s then fades out
+     (script.js), regardless of actual load state. Purely a polish/brand
+     touch on a static site that loads fast anyway. -->
+<div class="preloader" id="preloader" aria-hidden="true">
+  <!-- Reuses the site's existing palm-frond motif (#texture-palm, defined
+       below in the icon library) rather than inventing a new mark — same
+       line-drawn silhouette used as background texture throughout the
+       page, just animated here as a simple stroke draw-in. -->
+  <svg class="preloader__palm" viewBox="0 0 500 500"><use class="preloader__palm-path" href="#texture-palm"/></svg>
+  <img src="assets/img/logo/greencity-goa-horizontal.svg?v=1" alt="" class="preloader__logo">
+</div>
 <a class="skip-link" href="#main">Skip to content</a>
 
 <!-- Removed the top "working build" status banner per client feedback — the
@@ -784,7 +794,7 @@ gtag('config', 'AW-XXXXXXXXX');
           <span class="plus"></span>
         </button>
         <div class="faq-a">
-          <p>Residential plots from 300–500 sq. yd., and villas from 2 to 5 BHK. Final pricing by configuration to be confirmed.</p>
+          <p>Residential plots from 300–500 sq. yd., and villas from 2 to 5 BHK. Pricing varies by configuration — request a callback and our team will share exact pricing for the unit you're interested in.</p>
         </div>
       </div>
 
@@ -794,7 +804,7 @@ gtag('config', 'AW-XXXXXXXXX');
           <span class="plus"></span>
         </button>
         <div class="faq-a">
-          <p>To be confirmed — our team will share the latest possession timeline on a call.</p>
+          <p>Our team will share the latest possession timeline for your chosen configuration on a call.</p>
         </div>
       </div>
 
@@ -953,7 +963,7 @@ gtag('config', 'AW-XXXXXXXXX');
     </div>
 
     <div class="footer__bottom">
-      <span>© 2026 Greencity Goa · Jain Shri Villas. RERA No. — <span class="tbd">TBD</span></span>
+      <span>© 2026 Greencity Goa · Jain Shri Villas. RERA registration in progress.</span>
       <span><a href="privacy-policy.html">Privacy Policy</a></span>
     </div>
   </div>
@@ -1017,6 +1027,6 @@ gtag('config', 'AW-XXXXXXXXX');
   </a>
 </nav>
 
-<script src="assets/js/script.js?v=5"></script>
+<script src="assets/js/script.js?v=6"></script>
 </body>
 </html>
