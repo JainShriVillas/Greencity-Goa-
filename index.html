@@ -43,7 +43,15 @@
      and needs no substitution — used here exactly. -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700&family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,500&display=swap" rel="stylesheet">
+<!-- Weight list trimmed to what's actually used (grep-verified against every
+     font-weight in styles.css: only 400/500/600/700, no 300/800/900 anywhere)
+     — was pulling 18 font files, now 16, still covers every weight/italic
+     combo in use. Loaded non-render-blocking (media=print swapped to all on
+     load) since a lighthouse mobile audit flagged the font <link> as a
+     render-blocking request; noscript fallback covers JS-disabled visitors. -->
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap" rel="stylesheet" media="print" onload="this.media='all'; this.onload=null;">
+<noscript><link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap" rel="stylesheet"></noscript>
 
 <link rel="stylesheet" href="assets/css/styles.css?v=41">
 
@@ -335,7 +343,7 @@ gtag('config', 'AW-XXXXXXXXX');
      ========================================================================= -->
 <section class="hero">
   <div class="hero__bg" aria-hidden="true">
-    <img src="assets/img/renders/aerial-3.jpg?v=1" alt="" loading="eager">
+    <img src="assets/img/renders/aerial-3.jpg?v=2" alt="" loading="eager" fetchpriority="high">
   </div>
   <div class="wrap hero__layout">
     <img src="assets/img/logo/greencity-goa-horizontal.svg?v=1" alt="Greencity Goa" class="hero__brand-mark">
